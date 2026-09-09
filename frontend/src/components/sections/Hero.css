@@ -1,0 +1,293 @@
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* svh accounts for mobile browser chrome; vh is the fallback for engines
+     without dynamic viewport units. */
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-top: calc(var(--nav-h) + var(--space-8));
+  padding-bottom: var(--space-12);
+  overflow: hidden;
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 5rem);
+  width: 100%;
+}
+
+/* ---- Name column ---------------------------------------------------- */
+
+.hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.hero__eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--red);
+}
+
+.hero__eyebrow-sep {
+  color: var(--line-strong);
+}
+
+/* Silkscreen, not the display face. It is the most emphatically pixel of the
+   two, and the name is the one place on the site that earns that. Tracking
+   stays positive - tightening a pixel face closes the gaps that make it read
+   as pixel art. */
+.hero__name {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+  font-family: var(--font-pixel);
+  font-size: var(--fs-display);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  margin-bottom: var(--space-5);
+}
+
+.hero__name-line {
+  display: block;
+}
+
+/* Each headline line rises in on load. Load-time animation is intentionally
+   the only motion not tied to scroll - it establishes the site's pacing. */
+.hero__name-line,
+.hero__role,
+.hero__intro,
+.hero__actions,
+.hero__eyebrow {
+  animation: hero-rise var(--dur-slow) var(--ease-out) both;
+}
+
+.hero__eyebrow {
+  animation-delay: 40ms;
+}
+.hero__name-line:first-child {
+  animation-delay: 120ms;
+}
+.hero__name-line:last-child {
+  animation-delay: 200ms;
+}
+.hero__role {
+  animation-delay: 300ms;
+}
+.hero__intro {
+  animation-delay: 380ms;
+}
+.hero__actions {
+  animation-delay: 460ms;
+}
+
+/* Plain role line under the name, in the pixel label face. */
+.hero__role {
+  font-family: var(--font-pixel);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--red-bright);
+  margin-bottom: var(--space-5);
+}
+
+.hero__intro {
+  max-width: 52ch;
+  font-size: var(--fs-body-lg);
+  color: var(--text-dim);
+  margin-bottom: var(--space-8);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ---- Terminal card ------------------------------------------------------ */
+
+.hero__terminal {
+  background: rgba(14, 13, 17, 0.72);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+  animation: hero-rise var(--dur-slow) var(--ease-out) 520ms both;
+}
+
+.hero__terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.hero__terminal-dots {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.hero__terminal-dots i {
+  width: 6px;
+  height: 6px;
+  background: var(--line-strong);
+}
+
+.hero__terminal-dots i:first-child {
+  background: var(--red-deep);
+}
+
+.hero__terminal-title {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-label);
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+}
+
+.hero__terminal-body {
+  padding: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: 1.85;
+}
+
+.hero__line {
+  display: flex;
+  gap: 0.6rem;
+  overflow-wrap: anywhere;
+  animation: hero-line-in 420ms var(--ease-out) both;
+  animation-delay: calc(620ms + var(--i) * 90ms);
+}
+
+.hero__line--cmd {
+  color: var(--text);
+}
+
+.hero__line--out {
+  color: var(--text-dim);
+  padding-left: 1.1rem;
+}
+
+.hero__line--ok {
+  color: var(--red-bright);
+  padding-left: 1.1rem;
+}
+
+.hero__prompt {
+  color: var(--red);
+}
+
+.hero__caret {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  background: var(--red);
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+
+/* ---- Scroll cue --------------------------------------------------------- */
+
+.hero__scroll {
+  position: absolute;
+  /* Explicit z-index rather than the shared .above utility: this element sets
+     its own position, and combining the two classes made the result depend on
+     stylesheet order. */
+  z-index: 2;
+  left: var(--shell-pad);
+  bottom: var(--space-6);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-faint);
+  transition: color var(--t-fast) var(--ease-out);
+  animation: hero-rise var(--dur-slow) var(--ease-out) 700ms both;
+}
+
+.hero__scroll:hover {
+  color: var(--text);
+}
+
+.hero__scroll-track {
+  position: relative;
+  width: 1px;
+  height: 42px;
+  background: var(--line-strong);
+  overflow: hidden;
+}
+
+.hero__scroll-dot {
+  position: absolute;
+  inset-inline: -1px;
+  height: 14px;
+  background: var(--red);
+  animation: scroll-cue 2.2s var(--ease-in-out) infinite;
+}
+
+/* ---- Keyframes ---------------------------------------------------------- */
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+@keyframes hero-line-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(300%);
+  }
+}
+
+/* ---- Responsive --------------------------------------------------------- */
+
+@media (max-width: 980px) {
+  .hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+
+  .hero {
+    /* Content-driven height once stacked: forcing 100svh here would strand the
+       terminal card below the fold with no indication it exists. */
+    min-height: auto;
+    padding-bottom: var(--space-16);
+  }
+
+  .hero__scroll {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero__terminal-body {
+    /* Prevent the longest stack line from forcing a horizontal scrollbar. */
+    font-size: 0.6875rem;
+  }
+
+  .hero__actions .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}

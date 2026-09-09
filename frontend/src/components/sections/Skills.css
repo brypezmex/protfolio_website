@@ -1,0 +1,115 @@
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: var(--space-5);
+  /* Cards hug their content rather than stretching to the tallest in the row.
+     The groups have very different item counts - Databases holds one entry,
+     Tools holds seven - and stretching leaves the short cards mostly empty. */
+  align-items: start;
+}
+
+.skills__group {
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: border-color var(--t-mid) var(--ease-out);
+}
+
+.skills__group:hover {
+  border-color: var(--line-strong);
+}
+
+.skills__group-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--line);
+}
+
+.skills__group-glyph {
+  color: var(--red);
+}
+
+.skills__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.skill {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.skill__name {
+  font-family: var(--font-pixel);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+.skill__evidence {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.skill__evidence-link {
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding: 0.1rem 0.35rem;
+  border: 1px solid var(--line);
+  transition:
+    color var(--t-fast) var(--ease-out),
+    border-color var(--t-fast) var(--ease-out);
+}
+
+.skill__evidence-link:hover {
+  color: var(--red-bright);
+  border-color: var(--red-a32);
+}
+
+/* ---- Coursework strip --------------------------------------------------- */
+
+.skills__coursework {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--line);
+}
+
+.skills__coursework-label {
+  margin-bottom: var(--space-4);
+}
+
+.skills__coursework-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+}
+
+.skills__coursework-list li {
+  position: relative;
+  padding-left: var(--space-4);
+  font-family: var(--font-pixel);
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+}
+
+.skills__coursework-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 4px;
+  height: 4px;
+  background: var(--red-deep);
+}

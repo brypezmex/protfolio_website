@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Update the host once the real domain is pointed at the server.
+Sitemap: https://bryanperez.dev/sitemap.xml

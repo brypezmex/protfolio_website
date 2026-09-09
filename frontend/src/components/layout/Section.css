@@ -1,0 +1,26 @@
+.section {
+  position: relative;
+  padding-block: clamp(4.5rem, 10vw, var(--space-20));
+}
+
+.section--flush {
+  padding-top: 0;
+}
+
+/* Hairline between consecutive sections, fading in from the left so it reads
+   as a technical rule rather than a border. */
+.section + .section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--shell-pad);
+  right: var(--shell-pad);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--line) 12%,
+    var(--line) 88%,
+    transparent
+  );
+}

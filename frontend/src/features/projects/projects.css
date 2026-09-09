@@ -1,0 +1,460 @@
+/* ==========================================================================
+   Project grid
+   ========================================================================== */
+
+.pgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: var(--space-6);
+}
+
+/* ==========================================================================
+   Card
+   ========================================================================== */
+
+.pcard {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  transition:
+    border-color var(--t-mid) var(--ease-out),
+    transform var(--t-mid) var(--ease-out),
+    box-shadow var(--t-mid) var(--ease-out);
+}
+
+/* `.reveal` also sets transform, so the hover lift is applied only once the
+   card has finished revealing - otherwise the two would fight. */
+.pcard.is-visible:hover {
+  transform: translateY(-4px);
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-card);
+}
+
+/* ---- Generated preview -------------------------------------------------- */
+
+.pcard__preview {
+  position: relative;
+  min-height: 214px;
+  padding: var(--space-6);
+  overflow: hidden;
+  background-color: var(--bg-elev);
+  background-image:
+    radial-gradient(circle at 78% 22%, var(--red-a16), transparent 58%),
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 100% 100%, 22px 22px, 22px 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.pcard__watermark {
+  position: absolute;
+  right: -18px;
+  bottom: -26px;
+  color: var(--red);
+  opacity: 0.1;
+  transition:
+    opacity var(--t-slow) var(--ease-out),
+    transform var(--t-slow) var(--ease-out);
+}
+
+.pcard.is-visible:hover .pcard__watermark {
+  opacity: 0.18;
+  transform: translate(-6px, -6px);
+}
+
+/* Fine horizontal scanlines. Pure CSS gradient, no image, and it sits above
+   the schematic to tie the panel together as one "screen". */
+.pcard__scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.028) 0px,
+    rgba(255, 255, 255, 0.028) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* ---- Schematic ---------------------------------------------------------- */
+
+.schematic {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+.schematic__flow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.schematic__node {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.schematic__box {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  font-family: var(--font-pixel);
+  font-size: var(--fs-pixel-label);
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  background: rgba(8, 7, 10, 0.72);
+  border: 1px solid var(--line-strong);
+  transition:
+    color var(--t-mid) var(--ease-out),
+    border-color var(--t-mid) var(--ease-out);
+  transition-delay: calc(var(--i) * 40ms * var(--motion-scale));
+}
+
+.pcard.is-visible:hover .schematic__box,
+.pdetail__schematic .schematic__box {
+  color: var(--text);
+  border-color: var(--red-a32);
+}
+
+/* Connector: a hairline with a hard pixel arrowhead. */
+.schematic__arrow {
+  position: relative;
+  width: 1px;
+  height: 16px;
+  margin-left: 13px;
+  background: var(--line-strong);
+}
+
+.schematic__arrow::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 4px;
+  height: 4px;
+  transform: translateX(-50%);
+  background: var(--red);
+}
+
+/* ---- Card body ---------------------------------------------------------- */
+
+.pcard__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-6);
+}
+
+.pcard__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.pcard__period {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+
+.pcard__title {
+  font-size: var(--fs-h3);
+  margin-bottom: var(--space-3);
+}
+
+.pcard__open {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text);
+  transition: color var(--t-fast) var(--ease-out);
+}
+
+.pcard__open:hover {
+  color: var(--red-bright);
+}
+
+.pcard__open-arrow {
+  color: var(--red);
+  transition: transform var(--t-mid) var(--ease-out);
+}
+
+.pcard__open:hover .pcard__open-arrow {
+  transform: translateX(4px);
+}
+
+.pcard__tagline {
+  color: var(--text-dim);
+  margin-bottom: var(--space-5);
+}
+
+.pcard__highlights {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.pcard__highlights li {
+  position: relative;
+  padding-left: var(--space-5);
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+}
+
+.pcard__highlights li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 4px;
+  height: 4px;
+  background: var(--red);
+}
+
+.pcard__tech {
+  margin-bottom: var(--space-5);
+}
+
+.pcard__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  /* Pin the footer to the bottom so cards of unequal text length still line
+     their actions up across the grid row. */
+  margin-top: auto;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
+}
+
+.pcard__signals {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.pcard__stars {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+
+.plinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.plinks--detail {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.plink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.5rem 0.7rem;
+  font-family: var(--font-pixel);
+  font-size: var(--fs-pixel-label);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border: 1px solid var(--line);
+  transition:
+    color var(--t-fast) var(--ease-out),
+    border-color var(--t-fast) var(--ease-out),
+    background-color var(--t-fast) var(--ease-out);
+}
+
+a.plink:hover {
+  color: var(--red-bright);
+  border-color: var(--red-a32);
+  background: var(--red-a08);
+}
+
+.plink--pending {
+  color: var(--text-faint);
+  border-style: dashed;
+  cursor: not-allowed;
+}
+
+.plink__note {
+  font-size: 0.625rem;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+/* ==========================================================================
+   Detail dialog
+   ========================================================================== */
+
+.pdetail {
+  padding: clamp(1.5rem, 4vw, var(--space-8));
+}
+
+.pdetail__header {
+  padding-right: var(--space-10);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--line);
+}
+
+.pdetail__heading {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.pdetail__glyph {
+  color: var(--red);
+  margin-top: 6px;
+}
+
+.pdetail__title {
+  font-size: var(--fs-h1);
+  line-height: var(--lh-tight);
+}
+
+.pdetail__tagline {
+  max-width: 62ch;
+  font-size: var(--fs-body-lg);
+  color: var(--text-dim);
+  margin-bottom: var(--space-6);
+}
+
+.pdetail__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-4);
+}
+
+.pdetail__facts dd {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text);
+}
+
+.pdetail__muted {
+  color: var(--text-faint);
+}
+
+.pdetail__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, var(--space-8));
+  padding-top: var(--space-6);
+}
+
+.pdetail__main,
+.pdetail__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.pdetail__subtitle {
+  font-family: var(--font-pixel);
+  font-size: var(--fs-pixel-label);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--red-bright);
+  margin-bottom: var(--space-4);
+}
+
+.pdetail__summary {
+  color: var(--text-dim);
+  max-width: 68ch;
+}
+
+.pdetail__features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.pdetail__features li {
+  position: relative;
+  padding-left: var(--space-5);
+  border-left: 1px solid var(--line);
+}
+
+.pdetail__features li::before {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  background: var(--red);
+}
+
+.pdetail__features h4 {
+  font-size: var(--fs-body);
+  margin-bottom: var(--space-2);
+}
+
+.pdetail__features p {
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+  max-width: 66ch;
+}
+
+.pdetail__schematic {
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 820px) {
+  .pdetail__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* On a phone the stack and links matter more than the feature prose, so the
+     aside moves above the long-form content instead of below it. */
+  .pdetail__aside {
+    order: -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .pcard__preview {
+    min-height: 180px;
+    padding: var(--space-5);
+  }
+
+  .pcard__body {
+    padding: var(--space-5);
+  }
+
+  .pcard__footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

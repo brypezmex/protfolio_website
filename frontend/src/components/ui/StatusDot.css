@@ -1,0 +1,45 @@
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-pixel);
+  font-size: var(--fs-pixel-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.status__dot {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  background: currentColor;
+}
+
+.status--online {
+  color: #4ade80;
+}
+
+.status--online .status__dot {
+  animation: status-pulse 2.4s var(--ease-in-out) infinite;
+}
+
+.status--offline {
+  color: var(--red-bright);
+}
+
+.status--unconfigured {
+  color: var(--text-faint);
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  50% {
+    opacity: 0.55;
+    box-shadow: 0 0 6px 1px currentColor;
+  }
+}

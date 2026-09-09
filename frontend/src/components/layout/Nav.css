@@ -1,0 +1,262 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--t-mid) var(--ease-out),
+    border-color var(--t-mid) var(--ease-out),
+    backdrop-filter var(--t-mid) var(--ease-out);
+}
+
+.nav.is-scrolled {
+  background: rgba(8, 7, 10, 0.78);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-bottom-color: var(--line);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  height: var(--nav-h);
+}
+
+/* ---- Brand -------------------------------------------------------------- */
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-pixel);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.nav__brand-glyph {
+  color: var(--red);
+  transition: transform var(--t-mid) var(--ease-out);
+}
+
+.nav__brand:hover .nav__brand-glyph {
+  transform: translateY(-2px);
+}
+
+/* ---- Desktop links ------------------------------------------------------ */
+
+.nav__links ul {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.5rem 0.7rem;
+  font-family: var(--font-pixel);
+  font-size: var(--fs-pixel-label);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  transition: color var(--t-fast) var(--ease-out);
+}
+
+.nav__link-index {
+  font-size: 0.5rem;
+  color: var(--text-faint);
+  transition: color var(--t-fast) var(--ease-out);
+}
+
+/* Active/hover underline. Scaled rather than sized so the indicator animates on
+   the compositor. */
+.nav__link::after {
+  content: '';
+  position: absolute;
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: 0.25rem;
+  height: 1px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-mid) var(--ease-out);
+}
+
+.nav__link:hover,
+.nav__link.is-active {
+  color: var(--text);
+}
+
+.nav__link:hover .nav__link-index,
+.nav__link.is-active .nav__link-index {
+  color: var(--red);
+}
+
+.nav__link:hover::after,
+.nav__link.is-active::after {
+  transform: scaleX(1);
+}
+
+/* ---- Actions ------------------------------------------------------------ */
+
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.nav__resume {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.45rem 0.85rem;
+  font-family: var(--font-pixel);
+  font-size: var(--fs-pixel-label);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  transition:
+    border-color var(--t-fast) var(--ease-out),
+    background-color var(--t-fast) var(--ease-out),
+    color var(--t-fast) var(--ease-out);
+}
+
+.nav__resume:hover {
+  color: var(--red-bright);
+  border-color: var(--red-a32);
+  background: var(--red-a08);
+}
+
+.nav__toggle {
+  display: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+}
+
+.nav__toggle.is-open {
+  color: var(--red-bright);
+  border-color: var(--red-a32);
+}
+
+/* ---- Mobile overlay ----------------------------------------------------- */
+
+.nav__mobile {
+  position: fixed;
+  inset: var(--nav-h) 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-8) var(--shell-pad) var(--space-10);
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+
+  /*
+   * The menu stays mounted so its open/close transition can run; display:none
+   * would kill the animation.
+   *
+   * Keeping it out of the tab order and the accessibility tree is the `inert`
+   * attribute's job (see Nav.jsx), NOT this stylesheet's. A delayed
+   * `visibility` transition was tried first and is a trap: a transition with a
+   * 0s duration and a non-zero delay does not reliably settle, which leaves the
+   * closed menu computing to visibility:visible forever and its links tabbable
+   * behind an invisible overlay. `inert` is declarative, has no timing, and
+   * cannot desynchronise from the state that drives it.
+   */
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition:
+    opacity var(--t-mid) var(--ease-out),
+    transform var(--t-mid) var(--ease-out);
+}
+
+.nav__mobile.is-open {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.nav__mobile ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.nav__mobile li {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity var(--t-mid) var(--ease-out) calc(var(--i) * 45ms * var(--motion-scale)),
+    transform var(--t-mid) var(--ease-out) calc(var(--i) * 45ms * var(--motion-scale));
+}
+
+.nav__mobile.is-open li {
+  opacity: 1;
+  transform: none;
+}
+
+.nav__mobile a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  /* Comfortably above the 44px minimum touch target. */
+  padding: var(--space-4) 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  border-bottom: 1px solid var(--line);
+}
+
+.nav__mobile a:active {
+  color: var(--red-bright);
+}
+
+.nav__mobile-index {
+  font-size: var(--fs-xs);
+}
+
+.nav__mobile-resume {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+  padding: var(--space-4);
+  font-family: var(--font-pixel);
+  font-size: var(--fs-pixel-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--red-deep);
+  border-bottom: none;
+}
+
+/* ---- Breakpoint --------------------------------------------------------- */
+
+@media (max-width: 880px) {
+  .nav__links,
+  .nav__resume {
+    display: none;
+  }
+
+  .nav__toggle {
+    display: grid;
+  }
+}
+
+@media (min-width: 881px) {
+  .nav__mobile {
+    display: none;
+  }
+}

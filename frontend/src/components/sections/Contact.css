@@ -1,0 +1,41 @@
+.contact__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 5vw, var(--space-8));
+  align-items: start;
+}
+
+.contact__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.contact__resume {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-7);
+  background: linear-gradient(155deg, var(--red-a16), transparent 60%), var(--surface);
+  border: 1px solid var(--line-strong);
+}
+
+.contact__resume-glyph {
+  color: var(--red);
+}
+
+.contact__resume-title {
+  font-size: var(--fs-h3);
+}
+
+.contact__resume-copy {
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+}
+
+@media (max-width: 860px) {
+  .contact__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,13 @@
+.scroll-progress {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  height: 2px;
+  pointer-events: none;
+  background: var(--red);
+  /* scaleX rather than width: one compositor property, no layout per frame. */
+  transform: scaleX(var(--scroll, 0));
+  transform-origin: left;
+}

@@ -1,0 +1,414 @@
+/*
+ * Timeline layout.
+ *
+ * Two custom properties define the geometry and everything else derives from
+ * them, so the responsive variants only need to change these two values:
+ *
+ *   --tl-gutter  width of the year column (0 once the layout stacks)
+ *   --tl-gap     space between the gutter and the entry cards
+ *
+ * The rail sits at gutter + gap/2, and each node offsets itself by -gap/2 from
+ * its card, which lands both on exactly the same x coordinate at every size.
+ */
+
+.timeline {
+  --tl-gutter: 88px;
+  --tl-gap: 52px;
+  --tl-node: 26px;
+
+  position: relative;
+}
+
+/* ---- Rail --------------------------------------------------------------- */
+
+.timeline__rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--tl-gutter) + var(--tl-gap) / 2);
+  width: 2px;
+  transform: translateX(-1px);
+  background: var(--line);
+  overflow: hidden;
+}
+
+/*
+ * Progress fill.
+ *
+ * The fill is full height and slid up by (1 - progress), with the track
+ * clipping the overflow. That keeps the whole thing on the compositor - a
+ * single translate per frame, no layout, no repaint - where animating `height`
+ * or `top` would invalidate layout on every scroll frame.
+ *
+ * The gradient's brightest stop sits at the element's bottom edge, which is
+ * always exactly at the progress line, so the leading edge glows for free.
+ */
+.timeline__rail-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--red-ink) 0%,
+    var(--red-deep) 45%,
+    var(--red) 85%,
+    var(--ember) 100%
+  );
+  transform: translateY(calc((var(--progress, 0) - 1) * 100%));
+}
+
+.timeline__rail-fill::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 7px;
+  height: 7px;
+  transform: translate(-50%, 50%);
+  background: var(--ember);
+  box-shadow: 0 0 12px 3px var(--red-a56);
+}
+
+/* ---- Year groups -------------------------------------------------------- */
+
+.timeline__groups,
+.tl-group__entries {
+  display: flex;
+  flex-direction: column;
+}
+
+.tl-group {
+  display: grid;
+  grid-template-columns: var(--tl-gutter) minmax(0, 1fr);
+  column-gap: var(--tl-gap);
+}
+
+.tl-group__year {
+  position: sticky;
+  top: calc(var(--nav-h) + var(--space-6));
+  align-self: start;
+  padding-top: var(--space-6);
+  font-family: var(--font-pixel);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: right;
+  color: var(--text-faint);
+}
+
+/* ---- Entries ------------------------------------------------------------ */
+
+.tl-entry {
+  position: relative;
+  padding-block: var(--space-6);
+}
+
+.tl-entry__node {
+  position: absolute;
+  top: calc(var(--space-6) + 8px);
+  left: calc(var(--tl-gap) / -2);
+  transform: translateX(-50%);
+  display: grid;
+  place-items: center;
+  width: var(--tl-node);
+  height: var(--tl-node);
+  color: var(--text-faint);
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  transition:
+    color var(--t-mid) var(--ease-out),
+    border-color var(--t-mid) var(--ease-out),
+    box-shadow var(--t-mid) var(--ease-out),
+    transform var(--t-mid) var(--ease-out);
+}
+
+.tl-entry.is-visible .tl-entry__node {
+  color: var(--red-bright);
+  border-color: var(--red-a56);
+}
+
+.tl-entry--major.is-visible .tl-entry__node {
+  color: #fff;
+  background: var(--red-deep);
+  border-color: var(--red);
+  transform: translateX(-50%) scale(1.14);
+}
+
+.tl-entry--upcoming .tl-entry__node {
+  border-style: dashed;
+}
+
+/* Card entrance. Uses the same transform+opacity contract as Reveal, driven by
+   the entry's own IntersectionObserver so the node and card light together. */
+.tl-entry__card {
+  position: relative;
+  padding: var(--space-5) var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity var(--t-slow) var(--ease-out),
+    transform var(--t-slow) var(--ease-out),
+    border-color var(--t-mid) var(--ease-out),
+    background-color var(--t-mid) var(--ease-out);
+}
+
+.tl-entry.is-visible .tl-entry__card {
+  opacity: 1;
+  transform: none;
+}
+
+.tl-entry__card:hover {
+  border-color: var(--line-strong);
+  background: var(--surface-2);
+}
+
+/* Emphasis treatment for the milestones that matter most. */
+.tl-entry--major .tl-entry__card {
+  padding: var(--space-6) var(--space-7);
+  background: linear-gradient(150deg, var(--red-a08), transparent 55%), var(--surface);
+  border-color: var(--line-strong);
+}
+
+.tl-entry--major .tl-entry__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: var(--red);
+}
+
+.tl-entry--upcoming .tl-entry__card {
+  background: transparent;
+  border-style: dashed;
+}
+
+/* ---- Card contents ------------------------------------------------------ */
+
+.tl-entry__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.tl-entry__type {
+  color: var(--red-bright);
+}
+
+.tl-entry__period {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+
+.tl-entry__title {
+  font-size: var(--fs-h3);
+  margin-bottom: var(--space-2);
+}
+
+.tl-entry__org {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-dim);
+  margin-bottom: var(--space-4);
+}
+
+.tl-entry__role {
+  color: var(--text);
+}
+
+.tl-entry__summary {
+  font-size: var(--fs-body);
+  color: var(--text-dim);
+  max-width: 62ch;
+}
+
+.tl-entry__points {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  max-width: 62ch;
+}
+
+.tl-entry__points li {
+  position: relative;
+  padding-left: var(--space-5);
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+}
+
+/* Pixel bullet: a hard 4px square rather than a disc, matching the glyph set. */
+.tl-entry__points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 4px;
+  height: 4px;
+  background: var(--red);
+}
+
+.tl-entry__tags {
+  margin-top: var(--space-5);
+}
+
+.tl-entry__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  padding: 0.55rem 0.85rem;
+  font-family: var(--font-pixel);
+  font-size: var(--fs-pixel-label);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--red-bright);
+  border: 1px solid var(--red-a32);
+  background: var(--red-a08);
+  transition:
+    background-color var(--t-fast) var(--ease-out),
+    gap var(--t-fast) var(--ease-out);
+}
+
+.tl-entry__link:hover {
+  background: var(--red-a16);
+  gap: var(--space-3);
+}
+
+/* ---- Filters ------------------------------------------------------------ */
+
+.tl-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+}
+
+.tl-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.5rem 0.85rem;
+  font-family: var(--font-pixel);
+  font-size: var(--fs-pixel-label);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition:
+    color var(--t-fast) var(--ease-out),
+    border-color var(--t-fast) var(--ease-out),
+    background-color var(--t-fast) var(--ease-out);
+}
+
+.tl-filter:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--line-strong);
+}
+
+.tl-filter.is-active {
+  color: #fff;
+  background: var(--red-deep);
+  border-color: var(--red);
+}
+
+.tl-filter:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tl-filter__count {
+  font-size: 0.625rem;
+  color: currentColor;
+  opacity: 0.65;
+}
+
+.tl-empty {
+  padding: var(--space-8) 0;
+  color: var(--text-faint);
+}
+
+/* ---- Responsive --------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .timeline {
+    --tl-gutter: 0px;
+    --tl-gap: 36px;
+    --tl-node: 24px;
+  }
+
+  /* The year stops being a gutter column and becomes a divider above its
+     group - a genuinely different layout, not a squeezed desktop one. */
+  .tl-group {
+    display: block;
+  }
+
+  .tl-group__year {
+    position: static;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-6) 0 0 var(--tl-gap);
+    text-align: left;
+    color: var(--text-dim);
+  }
+
+  .tl-group__year::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--line-strong), transparent);
+  }
+
+  .tl-group__entries {
+    padding-left: var(--tl-gap);
+  }
+
+  .tl-entry__card {
+    padding: var(--space-5);
+  }
+
+  .tl-entry--major .tl-entry__card {
+    padding: var(--space-5);
+  }
+}
+
+@media (max-width: 560px) {
+  .timeline {
+    --tl-gap: 28px;
+    --tl-node: 22px;
+  }
+
+  .tl-entry__meta {
+    /* Stack rather than shrink: the period label is the thing that wraps
+       badly at this width. */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+
+  .tl-filters {
+    /* Horizontally scrollable chip row keeps all categories reachable without
+       wrapping into three lines on a phone. */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: var(--space-2);
+    scrollbar-width: none;
+  }
+
+  .tl-filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tl-filter {
+    flex: none;
+  }
+}

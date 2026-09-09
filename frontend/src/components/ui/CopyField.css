@@ -1,0 +1,63 @@
+.copy-field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: border-color var(--t-fast) var(--ease-out);
+}
+
+.copy-field:hover {
+  border-color: var(--line-strong);
+}
+
+.copy-field__glyph {
+  color: var(--red);
+}
+
+.copy-field__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.copy-field__value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text);
+  overflow-wrap: anywhere;
+  transition: color var(--t-fast) var(--ease-out);
+}
+
+a.copy-field__value:hover {
+  color: var(--red-bright);
+}
+
+.copy-field__button {
+  flex: none;
+  padding: 0.4rem 0.6rem;
+  font-family: var(--font-pixel);
+  font-size: 0.5625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  border: 1px solid var(--line);
+  transition:
+    color var(--t-fast) var(--ease-out),
+    border-color var(--t-fast) var(--ease-out);
+}
+
+.copy-field__button:hover {
+  color: var(--red-bright);
+  border-color: var(--red-a32);
+}
+
+@media (max-width: 480px) {
+  .copy-field {
+    gap: var(--space-3);
+    padding: var(--space-3);
+  }
+}

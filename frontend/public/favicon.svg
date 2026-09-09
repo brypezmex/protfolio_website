@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <rect width="32" height="32" fill="#08070a"/>
+  <!-- Pixel "B" in the site's accent red, matching the glyph system. -->
+  <g fill="#ff3345">
+    <rect x="7" y="7" width="4" height="18"/>
+    <rect x="11" y="7" width="9" height="4"/>
+    <rect x="20" y="9" width="4" height="4"/>
+    <rect x="11" y="13" width="9" height="4"/>
+    <rect x="20" y="17" width="4" height="4"/>
+    <rect x="11" y="21" width="9" height="4"/>
+  </g>
+  <rect x="7" y="27" width="17" height="2" fill="#ff8a3d"/>
+</svg>

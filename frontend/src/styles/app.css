@@ -1,0 +1,30 @@
+/*
+ * App-shell styling: the pieces that belong to the page frame rather than to
+ * any one component.
+ */
+
+.skip-link {
+  position: fixed;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: calc(var(--z-nav) + 1);
+  padding: 0.6rem 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: #fff;
+  background: var(--red-deep);
+  border: 1px solid var(--red);
+  /* Off-screen until focused, rather than display:none, so it stays in the tab
+     order and is the first thing a keyboard user reaches. */
+  transform: translateY(-200%);
+  transition: transform var(--t-fast) var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}

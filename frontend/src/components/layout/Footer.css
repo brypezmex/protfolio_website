@@ -1,0 +1,91 @@
+.footer {
+  position: relative;
+  padding-block: var(--space-8);
+  border-top: 1px solid var(--line);
+}
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5) var(--space-8);
+}
+
+.footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-pixel);
+  font-size: 0.8125rem;
+}
+
+.footer__glyph {
+  color: var(--red);
+}
+
+.footer__links {
+  display: flex;
+  gap: var(--space-5);
+}
+
+.footer__links a {
+  font-family: var(--font-pixel);
+  font-size: var(--fs-pixel-label);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  transition: color var(--t-fast) var(--ease-out);
+}
+
+.footer__links a:hover {
+  color: var(--red-bright);
+}
+
+.footer__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-pixel);
+  font-size: var(--fs-pixel-label);
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+}
+
+.footer__top {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+  font-family: var(--font-pixel);
+  font-size: var(--fs-pixel-label);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  transition: color var(--t-fast) var(--ease-out);
+}
+
+.footer__top:hover {
+  color: var(--text);
+}
+
+/* The shared chevron glyph rotated to point up, rather than a second bitmap. */
+.footer__top-arrow {
+  color: var(--red);
+  transform: rotate(-90deg);
+  transition: transform var(--t-mid) var(--ease-out);
+}
+
+.footer__top:hover .footer__top-arrow {
+  transform: rotate(-90deg) translateX(3px);
+}
+
+@media (max-width: 700px) {
+  .footer__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer__top {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,56 @@
+# systemd unit for the portfolio API, for a home server running the app
+# directly rather than in Docker.
+#
+# Install:
+#   sudo cp deploy/portfolio-api.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now portfolio-api
+#
+# Inspect:
+#   systemctl status portfolio-api
+#   journalctl -u portfolio-api -f
+#
+# Adjust User, Group, and the two paths to match the server.
+
+[Unit]
+Description=Bryan Perez portfolio API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+User=portfolio
+Group=portfolio
+
+# Repository root - `backend` must resolve as a package from here.
+WorkingDirectory=/srv/portfolio
+
+# Secrets live in this file, not in the unit. Keep it chmod 600 and owned by
+# the service user; a unit file is world-readable and a key placed in one with
+# Environment= would be readable by every account on the box.
+EnvironmentFile=/srv/portfolio/backend/.env
+
+ExecStart=/srv/portfolio/.venv/bin/gunicorn \
+    --bind 127.0.0.1:5001 \
+    --workers 2 \
+    --timeout 30 \
+    --access-logfile - \
+    --error-logfile - \
+    backend.wsgi:app
+
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=on-failure
+RestartSec=5s
+
+# Hardening: the service reads its own code and makes outbound HTTPS requests.
+# It never needs to write to disk or reach the rest of the filesystem.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

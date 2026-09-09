@@ -1,0 +1,12 @@
+# Runtime dependencies for the portfolio API.
+# Minor versions are pinned with ~= so security patches are picked up on a
+# rebuild without a surprise major-version change.
+
+Flask~=3.1.0
+flask-cors~=6.0.0
+requests~=2.32.3
+gunicorn~=23.0.0
+
+# Loads backend/.env during local development. Not used in production, where
+# the environment comes from systemd or Compose.
+python-dotenv~=1.0.1
