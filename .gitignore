@@ -1,9 +1,45 @@
 # ---- Secrets -------------------------------------------------------------
-# .env files hold API keys and home server addresses. Only .env.example is
-# tracked. Never remove these lines.
+# .env files hold API keys (GITHUB_TOKEN) and home server addresses. Only
+# .env.example is tracked. Never remove these lines.
 .env
 .env.*
 !.env.example
+.envrc
+
+# Private keys and TLS certificates. The server's Let's Encrypt certs live in
+# /etc/letsencrypt on the host (see deploy/nginx.conf) and never belong here.
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+*.jks
+*.ppk
+id_rsa*
+id_ecdsa*
+id_ed25519*
+
+# Credential and token files.
+secrets.*
+*.secret
+credentials.json
+*credentials*.json
+service-account*.json
+.netrc
+# Can hold registry auth tokens. If one is ever needed for registry config
+# only, force-add it after checking it contains no token.
+.npmrc
+.pypirc
+
+# Local databases and data dumps can contain real user data.
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+
+# Per-machine Claude Code settings (local permissions, paths).
+.claude/settings.local.json
 
 # ---- Node ----------------------------------------------------------------
 node_modules/
