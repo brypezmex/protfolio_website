@@ -1,262 +1,288 @@
+/* ==========================================================================
+   Bar
+   ========================================================================== */
+
+.nav-scrim {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: calc(var(--z-nav) - 2);
+  height: calc(var(--nav-h) + var(--space-5));
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgb(15 15 15 / 0.92) 0%,
+    rgb(15 15 15 / 0.7) 55%,
+    rgb(15 15 15 / 0) 100%
+  );
+}
+
 .nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  inset: 0 0 auto;
   z-index: var(--z-nav);
-  border-bottom: 1px solid transparent;
-  transition:
-    background-color var(--t-mid) var(--ease-out),
-    border-color var(--t-mid) var(--ease-out),
-    backdrop-filter var(--t-mid) var(--ease-out);
-}
-
-.nav.is-scrolled {
-  background: rgba(8, 7, 10, 0.78);
-  backdrop-filter: blur(14px) saturate(140%);
-  border-bottom-color: var(--line);
-}
-
-.nav__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-5);
-  height: var(--nav-h);
-}
-
-/* ---- Brand -------------------------------------------------------------- */
-
-.nav__brand {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-pixel);
-  font-size: 0.8125rem;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-
-.nav__brand-glyph {
-  color: var(--red);
-  transition: transform var(--t-mid) var(--ease-out);
-}
-
-.nav__brand:hover .nav__brand-glyph {
-  transform: translateY(-2px);
-}
-
-/* ---- Desktop links ------------------------------------------------------ */
-
-.nav__links ul {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-}
-
-.nav__link {
-  position: relative;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  padding: 0.5rem 0.7rem;
-  font-family: var(--font-pixel);
-  font-size: var(--fs-pixel-label);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  transition: color var(--t-fast) var(--ease-out);
-}
-
-.nav__link-index {
-  font-size: 0.5rem;
-  color: var(--text-faint);
-  transition: color var(--t-fast) var(--ease-out);
-}
-
-/* Active/hover underline. Scaled rather than sized so the indicator animates on
-   the compositor. */
-.nav__link::after {
-  content: '';
-  position: absolute;
-  left: 0.7rem;
-  right: 0.7rem;
-  bottom: 0.25rem;
-  height: 1px;
-  background: var(--red);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--t-mid) var(--ease-out);
-}
-
-.nav__link:hover,
-.nav__link.is-active {
-  color: var(--text);
-}
-
-.nav__link:hover .nav__link-index,
-.nav__link.is-active .nav__link-index {
-  color: var(--red);
-}
-
-.nav__link:hover::after,
-.nav__link.is-active::after {
-  transform: scaleX(1);
-}
-
-/* ---- Actions ------------------------------------------------------------ */
-
-.nav__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-}
-
-.nav__resume {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 0.45rem 0.85rem;
-  font-family: var(--font-pixel);
-  font-size: var(--fs-pixel-label);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text);
-  border: 1px solid var(--line-strong);
-  transition:
-    border-color var(--t-fast) var(--ease-out),
-    background-color var(--t-fast) var(--ease-out),
-    color var(--t-fast) var(--ease-out);
-}
-
-.nav__resume:hover {
-  color: var(--red-bright);
-  border-color: var(--red-a32);
-  background: var(--red-a08);
-}
-
-.nav__toggle {
-  display: none;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  color: var(--text);
-  border: 1px solid var(--line-strong);
-}
-
-.nav__toggle.is-open {
-  color: var(--red-bright);
-  border-color: var(--red-a32);
-}
-
-/* ---- Mobile overlay ----------------------------------------------------- */
-
-.nav__mobile {
-  position: fixed;
-  inset: var(--nav-h) 0 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: var(--space-8) var(--shell-pad) var(--space-10);
-  background: var(--bg);
-  border-top: 1px solid var(--line);
-
-  /*
-   * The menu stays mounted so its open/close transition can run; display:none
-   * would kill the animation.
-   *
-   * Keeping it out of the tab order and the accessibility tree is the `inert`
-   * attribute's job (see Nav.jsx), NOT this stylesheet's. A delayed
-   * `visibility` transition was tried first and is a trap: a transition with a
-   * 0s duration and a non-zero delay does not reliably settle, which leaves the
-   * closed menu computing to visibility:visible forever and its links tabbable
-   * behind an invisible overlay. `inert` is declarative, has no timing, and
-   * cannot desynchronise from the state that drives it.
-   */
-  opacity: 0;
-  transform: translateY(-8px);
+  color: #fff;
+  /* Blends with whatever is behind it: white type over the black page, dark
+     type over the bright parts of the photo. Must sit on this element - the
+     one that forms the stacking context - to blend with the page at all. */
+  mix-blend-mode: difference;
+  /* The bar has no background, so its box would otherwise swallow clicks on
+     whatever scrolls underneath it. Only the controls take pointer events. */
   pointer-events: none;
-  transition:
-    opacity var(--t-mid) var(--ease-out),
-    transform var(--t-mid) var(--ease-out);
 }
 
-.nav__mobile.is-open {
-  opacity: 1;
-  transform: none;
+.nav a,
+.nav button {
   pointer-events: auto;
 }
 
-.nav__mobile ul {
+.nav__bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-6);
+  max-width: var(--shell-max);
+  margin-inline: auto;
+  padding: clamp(1rem, 1.6vw, 1.5rem) var(--shell-pad) 0;
+  font-size: var(--fs-nav);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.nav__col {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: 0.2rem;
+  min-width: 0;
 }
 
-.nav__mobile li {
-  opacity: 0;
-  transform: translateY(12px);
-  transition:
-    opacity var(--t-mid) var(--ease-out) calc(var(--i) * 45ms * var(--motion-scale)),
-    transform var(--t-mid) var(--ease-out) calc(var(--i) * 45ms * var(--motion-scale));
+.nav__col--name {
+  align-items: center;
+  text-align: center;
 }
 
-.nav__mobile.is-open li {
-  opacity: 1;
-  transform: none;
+.nav__col--actions {
+  align-items: flex-end;
+  text-align: right;
 }
 
-.nav__mobile a {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-4);
-  /* Comfortably above the 44px minimum touch target. */
-  padding: var(--space-4) 0;
-  font-family: var(--font-display);
-  font-size: var(--fs-h3);
-  font-weight: 600;
-  border-bottom: 1px solid var(--line);
+.nav__heading {
+  color: #acacac;
 }
 
-.nav__mobile a:active {
-  color: var(--red-bright);
+.nav__name {
+  color: #fff;
 }
 
-.nav__mobile-index {
-  font-size: var(--fs-xs);
-}
-
-.nav__mobile-resume {
+.nav__status {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
-  margin-top: var(--space-8);
-  padding: var(--space-4);
-  font-family: var(--font-pixel);
-  font-size: var(--fs-pixel-label);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #fff;
-  background: var(--red-deep);
-  border-bottom: none;
 }
 
-/* ---- Breakpoint --------------------------------------------------------- */
+/* The only colour on the page. Square, like everything else. */
+.nav__dot {
+  flex: none;
+  width: 0.5em;
+  height: 0.5em;
+  margin-right: 0.6em;
+  background: var(--signal);
+  animation: nav-pulse 2.8s var(--ease-in-out) infinite;
+}
 
-@media (max-width: 880px) {
-  .nav__links,
-  .nav__resume {
+/* ---- Link runs ---------------------------------------------------------- */
+
+.nav__list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav__col--actions .nav__list {
+  justify-content: flex-end;
+}
+
+.nav__list li {
+  display: inline-flex;
+}
+
+/*
+ * Links rest dimmed and light up when hovered or current. The hover fill is
+ * white and the label turns black; after the bar's difference blend that
+ * reads as an inverted block over any background.
+ */
+.nav__link {
+  position: relative;
+  isolation: isolate;
+  color: #fff;
+  opacity: 0.55;
+  transition:
+    opacity var(--t-mid) var(--ease-out),
+    color var(--t-mid) var(--ease-expo);
+}
+
+.nav__link::before {
+  content: '';
+  position: absolute;
+  inset: 0 -0.2em;
+  z-index: -1;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--t-mid) var(--ease-expo);
+}
+
+.nav__link:hover,
+.nav__link:focus-visible,
+.nav__link.is-active {
+  opacity: 1;
+}
+
+.nav__link:hover,
+.nav__link:focus-visible {
+  color: #000;
+}
+
+.nav__link:hover::before,
+.nav__link:focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.nav__comma {
+  margin-right: 0.3em;
+  opacity: 0.55;
+}
+
+/* ---- Mobile toggle ------------------------------------------------------ */
+
+.nav__toggle {
+  display: none;
+  justify-self: end;
+  padding: 0.25rem 0;
+  font-size: var(--fs-nav);
+  font-weight: 500;
+  color: #fff;
+}
+
+@keyframes nav-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Keep in sync with DESKTOP_QUERY in Nav.jsx. */
+@media (max-width: 991.98px) {
+  .nav__bar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .nav__col--quick,
+  .nav__col--actions {
     display: none;
   }
 
+  .nav__col--name {
+    align-items: flex-start;
+    text-align: left;
+  }
+
   .nav__toggle {
-    display: grid;
+    display: inline-flex;
   }
 }
 
-@media (min-width: 881px) {
-  .nav__mobile {
+/* ==========================================================================
+   Mobile overlay
+   ========================================================================== */
+
+.nav-menu {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-nav) - 1);
+  display: flex;
+  background: var(--bg);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--t-mid) var(--ease-out),
+    visibility 0s linear var(--t-mid);
+}
+
+.nav-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--t-mid) var(--ease-out),
+    visibility 0s;
+}
+
+.nav-menu__inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-6);
+  padding-top: calc(var(--nav-h) + var(--space-4));
+  padding-bottom: var(--space-7);
+  overflow-y: auto;
+}
+
+.nav-menu__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-menu__list li {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity var(--t-mid) var(--ease-out),
+    transform var(--t-slow) var(--ease-expo);
+}
+
+.nav-menu.is-open .nav-menu__list li {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(80ms + var(--i) * 55ms * var(--motion-scale));
+}
+
+.nav-menu__link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+  padding-block: 0.1em;
+  font-size: clamp(2.5rem, 12vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: var(--ls-display);
+}
+
+.nav-menu__link .index {
+  letter-spacing: 0;
+}
+
+.nav-menu__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line-strong);
+}
+
+.nav-menu__status {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: var(--space-2);
+  font-size: var(--fs-nav);
+  font-weight: 500;
+  color: var(--text-dim);
+}
+
+@media (min-width: 992px) {
+  .nav-menu {
     display: none;
   }
 }

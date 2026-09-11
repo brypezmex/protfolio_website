@@ -4,7 +4,7 @@ import { useProjectDialog } from '../../features/projects/useProjects.js';
 import { Section } from '../layout/Section.jsx';
 import { SectionHeading } from '../ui/SectionHeading.jsx';
 import { Reveal } from '../ui/Reveal.jsx';
-import { PixelIcon } from '../ui/PixelIcon.jsx';
+import { Roll } from '../ui/Roll.jsx';
 import './Skills.css';
 
 /**
@@ -27,11 +27,12 @@ function SkillEvidence({ usedIn }) {
         return (
           <button
             key={id}
-            className="skill__evidence-link"
+            className="skill__evidence-link roll-trigger"
             type="button"
             onClick={() => openProject(id)}
+            aria-label={`Open ${project.name}`}
           >
-            {project.name}
+            <Roll>{project.name}</Roll>
           </button>
         );
       })}
@@ -44,9 +45,7 @@ export function Skills() {
     <Section id="skills">
       <SectionHeading
         id="skills"
-        index="03"
-        icon="code"
-        title="Skills"
+        title={['{L}anguages, {F}rameworks', '{&} {T}ools.']}
         lede="Grouped by role in the stack. Where the resume places a technology in a project, that project is linked beside it."
       />
 
@@ -54,17 +53,17 @@ export function Skills() {
         {skillGroups.map((group, groupIndex) => (
           <Reveal
             as="section"
-            className="skills__group notched--sm"
+            className="skills__group"
             key={group.id}
             delay={groupIndex * 90}
             aria-labelledby={`skills-${group.id}`}
           >
-            <header className="skills__group-head">
-              <PixelIcon name={group.icon} size={16} className="skills__group-glyph" />
-              <h3 className="label" id={`skills-${group.id}`}>
-                {group.label}
-              </h3>
-            </header>
+            <h3 className="skills__label" id={`skills-${group.id}`}>
+              <span className="index" aria-hidden="true">
+                [ <span className="index__num">{String(groupIndex + 1).padStart(2, '0')}</span> ]
+              </span>
+              {group.label}
+            </h3>
 
             <ul className="skills__list">
               {group.skills.map((skill) => (
@@ -79,7 +78,7 @@ export function Skills() {
       </div>
 
       <Reveal className="skills__coursework" delay={140}>
-        <h3 className="label skills__coursework-label">Relevant coursework</h3>
+        <h3 className="skills__label">Relevant coursework</h3>
         <ul className="skills__coursework-list">
           {coursework.map((course) => (
             <li key={course}>{course}</li>

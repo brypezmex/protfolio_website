@@ -1,293 +1,144 @@
 .hero {
+  --hero-progress: 0;
+
   position: relative;
-  display: flex;
-  align-items: center;
   /* svh accounts for mobile browser chrome; vh is the fallback for engines
-     without dynamic viewport units. */
-  min-height: 100vh;
-  min-height: 100svh;
-  padding-top: calc(var(--nav-h) + var(--space-8));
-  padding-bottom: var(--space-12);
+     that do not support it. */
+  height: 100vh;
+  height: 100svh;
+  min-height: 540px;
   overflow: hidden;
+  background: var(--bg);
+  isolation: isolate;
 }
 
-.hero__inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  align-items: center;
-  gap: clamp(2rem, 6vw, 5rem);
+/* ---- Photograph --------------------------------------------------------- */
+
+/* The wrapper runs the one-off entrance (settling in from a slight zoom);
+   the image inside runs the scroll-linked zoom. Splitting them keeps the two
+   transforms from overwriting each other. */
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  animation: hero-settle calc(2.2s * var(--motion-scale)) var(--ease-expo) both;
+}
+
+.hero__image {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Keeps the face in frame: the vertical value matters on wide screens,
+     where the 4:3 photo is cropped top and bottom; the horizontal one on
+     phones, where it is cropped at the sides. */
+  object-position: 40% 36%;
+  transform-origin: 50% 0%;
+  transform: translate3d(0, calc(var(--hero-progress) * 16% * var(--motion-scale)), 0)
+    scale(calc(1 + var(--hero-progress) * 0.18 * var(--motion-scale)));
+  /* The one element on the page that transforms on every scroll frame, so it
+     earns a permanent layer. */
+  will-change: transform;
 }
 
-/* ---- Name column ---------------------------------------------------- */
-
-.hero__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-6);
+/*
+ * Legibility layers, top to bottom: a fade under the nav (the top of this
+ * photo is bright wall and poster text, which the nav's small type would
+ * otherwise sit on), a vignette that pulls the eye to the subject, a long
+ * fade at the bottom that sets up the headline and dissolves the photo into
+ * the page, and an overall dim that takes a bright office shot down to the
+ * page's low-key register.
+ */
+.hero__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgb(0 0 0 / 0.82) 0%, rgb(0 0 0 / 0.45) 16%, rgb(0 0 0 / 0) 34%),
+    linear-gradient(0deg, var(--bg) 0%, rgb(15 15 15 / 0.85) 22%, rgb(15 15 15 / 0) 60%),
+    radial-gradient(ellipse 85% 80% at 42% 40%, rgb(0 0 0 / 0) 30%, rgb(0 0 0 / 0.75) 100%),
+    rgb(0 0 0 / 0.3);
 }
 
-.hero__eyebrow-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--red);
-}
+/* ---- Content ------------------------------------------------------------ */
 
-.hero__eyebrow-sep {
-  color: var(--line-strong);
-}
-
-/* Silkscreen, not the display face. It is the most emphatically pixel of the
-   two, and the name is the one place on the site that earns that. Tracking
-   stays positive - tightening a pixel face closes the gaps that make it read
-   as pixel art. */
-.hero__name {
+.hero__content {
   display: flex;
   flex-direction: column;
-  gap: 0.15em;
-  font-family: var(--font-pixel);
-  font-size: var(--fs-display);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.01em;
-  margin-bottom: var(--space-5);
+  justify-content: flex-end;
+  gap: clamp(1.75rem, 3.5vw, 3rem);
+  height: 100%;
+  padding-bottom: clamp(1.25rem, 2.4vw, 2.25rem);
+  opacity: calc(1 - var(--hero-progress) * 1.8);
+  transform: translate3d(0, calc(var(--hero-progress) * -60px * var(--motion-scale)), 0);
 }
 
-.hero__name-line {
-  display: block;
+.hero__title {
+  font-size: var(--fs-hero);
+  line-height: 0.95;
+  letter-spacing: var(--ls-display);
+  text-wrap: initial;
 }
 
-/* Each headline line rises in on load. Load-time animation is intentionally
-   the only motion not tied to scroll - it establishes the site's pacing. */
-.hero__name-line,
-.hero__role,
-.hero__intro,
-.hero__actions,
-.hero__eyebrow {
-  animation: hero-rise var(--dur-slow) var(--ease-out) both;
-}
-
-.hero__eyebrow {
-  animation-delay: 40ms;
-}
-.hero__name-line:first-child {
-  animation-delay: 120ms;
-}
-.hero__name-line:last-child {
-  animation-delay: 200ms;
-}
-.hero__role {
-  animation-delay: 300ms;
-}
-.hero__intro {
-  animation-delay: 380ms;
-}
-.hero__actions {
-  animation-delay: 460ms;
-}
-
-/* Plain role line under the name, in the pixel label face. */
-.hero__role {
-  font-family: var(--font-pixel);
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  color: var(--red-bright);
-  margin-bottom: var(--space-5);
-}
-
-.hero__intro {
-  max-width: 52ch;
-  font-size: var(--fs-body-lg);
-  color: var(--text-dim);
-  margin-bottom: var(--space-8);
-}
-
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-
-/* ---- Terminal card ------------------------------------------------------ */
-
-.hero__terminal {
-  background: rgba(14, 13, 17, 0.72);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-card);
-  animation: hero-rise var(--dur-slow) var(--ease-out) 520ms both;
-}
-
-.hero__terminal-bar {
-  display: flex;
+.hero__meta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--line);
-  background: var(--surface);
+  gap: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgb(255 255 255 / 0.22);
+  font-size: var(--fs-nav);
+  font-weight: 500;
+  color: rgb(255 255 255 / 0.72);
+  animation: hero-fade calc(1.2s * var(--motion-scale)) var(--ease-out)
+    calc(0.9s * var(--motion-scale)) both;
 }
 
-.hero__terminal-dots {
-  display: inline-flex;
-  gap: 5px;
+.hero__meta-location {
+  text-align: center;
 }
-
-.hero__terminal-dots i {
-  width: 6px;
-  height: 6px;
-  background: var(--line-strong);
-}
-
-.hero__terminal-dots i:first-child {
-  background: var(--red-deep);
-}
-
-.hero__terminal-title {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono-label);
-  letter-spacing: 0.04em;
-  color: var(--text-faint);
-}
-
-.hero__terminal-body {
-  padding: var(--space-4);
-  font-family: var(--font-mono);
-  font-size: var(--fs-xs);
-  line-height: 1.85;
-}
-
-.hero__line {
-  display: flex;
-  gap: 0.6rem;
-  overflow-wrap: anywhere;
-  animation: hero-line-in 420ms var(--ease-out) both;
-  animation-delay: calc(620ms + var(--i) * 90ms);
-}
-
-.hero__line--cmd {
-  color: var(--text);
-}
-
-.hero__line--out {
-  color: var(--text-dim);
-  padding-left: 1.1rem;
-}
-
-.hero__line--ok {
-  color: var(--red-bright);
-  padding-left: 1.1rem;
-}
-
-.hero__prompt {
-  color: var(--red);
-}
-
-.hero__caret {
-  display: inline-block;
-  width: 7px;
-  height: 14px;
-  background: var(--red);
-  animation: caret-blink 1.1s steps(1) infinite;
-}
-
-/* ---- Scroll cue --------------------------------------------------------- */
 
 .hero__scroll {
-  position: absolute;
-  /* Explicit z-index rather than the shared .above utility: this element sets
-     its own position, and combining the two classes made the result depend on
-     stylesheet order. */
-  z-index: 2;
-  left: var(--shell-pad);
-  bottom: var(--space-6);
+  justify-self: end;
   display: inline-flex;
   align-items: center;
-  gap: var(--space-3);
-  color: var(--text-faint);
-  transition: color var(--t-fast) var(--ease-out);
-  animation: hero-rise var(--dur-slow) var(--ease-out) 700ms both;
-}
-
-.hero__scroll:hover {
+  gap: 0.5em;
   color: var(--text);
 }
 
-.hero__scroll-track {
-  position: relative;
-  width: 1px;
-  height: 42px;
-  background: var(--line-strong);
-  overflow: hidden;
+.hero__scroll-icon {
+  animation: hero-nudge calc(2.4s * var(--motion-scale)) var(--ease-in-out) infinite;
 }
 
-.hero__scroll-dot {
-  position: absolute;
-  inset-inline: -1px;
-  height: 14px;
-  background: var(--red);
-  animation: scroll-cue 2.2s var(--ease-in-out) infinite;
-}
-
-/* ---- Keyframes ---------------------------------------------------------- */
-
-@keyframes hero-rise {
+@keyframes hero-settle {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: scale(1.12);
   }
 }
 
-@keyframes hero-line-in {
+@keyframes hero-fade {
   from {
     opacity: 0;
-    transform: translateX(-6px);
   }
 }
 
-@keyframes caret-blink {
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes scroll-cue {
-  0% {
-    transform: translateY(-100%);
-  }
+@keyframes hero-nudge {
+  0%,
   100% {
-    transform: translateY(300%);
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(3px);
   }
 }
 
-/* ---- Responsive --------------------------------------------------------- */
-
-@media (max-width: 980px) {
-  .hero__inner {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-8);
+@media (max-width: 640px) {
+  .hero__meta {
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
-  .hero {
-    /* Content-driven height once stacked: forcing 100svh here would strand the
-       terminal card below the fold with no indication it exists. */
-    min-height: auto;
-    padding-bottom: var(--space-16);
-  }
-
-  .hero__scroll {
+  .hero__meta-location {
     display: none;
-  }
-}
-
-@media (max-width: 600px) {
-  .hero__terminal-body {
-    /* Prevent the longest stack line from forcing a horizontal scrollbar. */
-    font-size: 0.6875rem;
-  }
-
-  .hero__actions .btn {
-    flex: 1 1 auto;
-    justify-content: center;
   }
 }

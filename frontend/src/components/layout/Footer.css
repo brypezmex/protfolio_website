@@ -1,91 +1,43 @@
 .footer {
   position: relative;
-  padding-block: var(--space-8);
-  border-top: 1px solid var(--line);
+  padding-top: clamp(3rem, 6vw, 5.5rem);
+  padding-bottom: var(--space-6);
+  border-top: 1px solid var(--line-strong);
+  overflow: hidden;
 }
 
-.footer__inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-5) var(--space-8);
-}
-
-.footer__brand {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-pixel);
-  font-size: 0.8125rem;
-}
-
-.footer__glyph {
-  color: var(--red);
-}
-
-.footer__links {
-  display: flex;
-  gap: var(--space-5);
-}
-
-.footer__links a {
-  font-family: var(--font-pixel);
-  font-size: var(--fs-pixel-label);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  transition: color var(--t-fast) var(--ease-out);
-}
-
-.footer__links a:hover {
-  color: var(--red-bright);
-}
+/* ---- Meta row ----------------------------------------------------------- */
 
 .footer__meta {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-pixel);
-  font-size: var(--fs-pixel-label);
-  letter-spacing: 0.04em;
+  gap: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line-strong);
+  font-size: var(--fs-nav);
+  font-weight: 500;
   color: var(--text-faint);
 }
 
-.footer__top {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-left: auto;
-  font-family: var(--font-pixel);
-  font-size: var(--fs-pixel-label);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  transition: color var(--t-fast) var(--ease-out);
+.footer__built {
+  text-align: center;
 }
 
-.footer__top:hover {
+.footer__top {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
   color: var(--text);
 }
 
-/* The shared chevron glyph rotated to point up, rather than a second bitmap. */
-.footer__top-arrow {
-  color: var(--red);
-  transform: rotate(-90deg);
-  transition: transform var(--t-mid) var(--ease-out);
-}
-
-.footer__top:hover .footer__top-arrow {
-  transform: rotate(-90deg) translateX(3px);
-}
-
-@media (max-width: 700px) {
-  .footer__inner {
-    flex-direction: column;
-    align-items: flex-start;
+@media (max-width: 720px) {
+  .footer__meta {
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
-  .footer__top {
-    margin-left: 0;
+  .footer__built {
+    display: none;
   }
 }

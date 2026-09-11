@@ -1,17 +1,9 @@
 import { useInView } from '../../hooks/useInView.js';
 import { getProject } from '../../data/projects.js';
 import { useProjectDialog } from '../projects/useProjects.js';
-import { PixelIcon } from '../../components/ui/PixelIcon.jsx';
+import { ArrowLink } from '../../components/ui/ArrowLink.jsx';
 import { TagList } from '../../components/ui/Tag.jsx';
 import { cn } from '../../utils/cn.js';
-
-/** Pixel icon shown inside the rail node, chosen by entry type. */
-const TYPE_ICON = {
-  education: 'book',
-  project: 'code',
-  research: 'teach',
-  involvement: 'users',
-};
 
 const TYPE_LABEL = {
   education: 'Education',
@@ -21,11 +13,11 @@ const TYPE_LABEL = {
 };
 
 /**
- * A single node on the timeline.
+ * A single timeline entry: type and dates, then the title beside the detail.
  *
  * Entries whose `projectId` resolves to a real project get a control that opens
  * the full project dialog, which is what ties the chronological view to the
- * detailed project section without duplicating any content between them.
+ * project section without duplicating any content between them.
  */
 export function TimelineEntry({ entry }) {
   const [ref, inView] = useInView({ threshold: 0.2 });
@@ -43,55 +35,51 @@ export function TimelineEntry({ entry }) {
         inView && 'is-visible',
       )}
     >
-      <span className="tl-entry__node" aria-hidden="true">
-        <PixelIcon name={TYPE_ICON[entry.type] ?? 'zap'} size={16} />
-      </span>
+      <article className="tl-entry__card">
+        <p className="tl-entry__meta">
+          <span className="tl-entry__type">{TYPE_LABEL[entry.type]}</span>
+          <span aria-hidden="true"> / </span>
+          <span>{entry.periodLabel}</span>
+        </p>
 
-      <article className="tl-entry__card notched--sm">
-        <div className="tl-entry__meta">
-          <span className="tl-entry__type label">{TYPE_LABEL[entry.type]}</span>
-          <span className="tl-entry__period">{entry.periodLabel}</span>
+        <div className="tl-entry__main">
+          <h3 className="tl-entry__title">{entry.title}</h3>
+
+          {entry.org || entry.role ? (
+            <p className="tl-entry__org">
+              {entry.role ? <span className="tl-entry__role">{entry.role}</span> : null}
+              {entry.role && entry.org ? <span aria-hidden="true">, </span> : null}
+              {entry.org}
+            </p>
+          ) : null}
         </div>
 
-        <h3 className="tl-entry__title">{entry.title}</h3>
+        <div className="tl-entry__body">
+          <p className="tl-entry__summary">{entry.summary}</p>
 
-        {entry.org || entry.role ? (
-          <p className="tl-entry__org">
-            {entry.role ? <span className="tl-entry__role">{entry.role}</span> : null}
-            {entry.role && entry.org ? <span aria-hidden="true"> / </span> : null}
-            {entry.org}
-          </p>
-        ) : null}
+          {entry.points.length > 0 ? (
+            <ul className="tl-entry__points">
+              {entry.points.map((point) => (
+                <li key={point}>{point}</li>
+              ))}
+            </ul>
+          ) : null}
 
-        <p className="tl-entry__summary">{entry.summary}</p>
+          {entry.tags.length > 0 ? (
+            <TagList
+              items={entry.tags}
+              tone="quiet"
+              className="tl-entry__tags"
+              label={`Topics for ${entry.title}`}
+            />
+          ) : null}
 
-        {entry.points.length > 0 ? (
-          <ul className="tl-entry__points">
-            {entry.points.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
-        ) : null}
-
-        {entry.tags.length > 0 ? (
-          <TagList
-            items={entry.tags}
-            tone="quiet"
-            className="tl-entry__tags"
-            label={`Topics for ${entry.title}`}
-          />
-        ) : null}
-
-        {project ? (
-          <button
-            className="tl-entry__link"
-            type="button"
-            onClick={() => openProject(project.id)}
-          >
-            Open {project.name}
-            <PixelIcon name="chevronRight" size={16} />
-          </button>
-        ) : null}
+          {project ? (
+            <ArrowLink size="sm" icon="plus" onClick={() => openProject(project.id)}>
+              {`Open ${project.name}`}
+            </ArrowLink>
+          ) : null}
+        </div>
       </article>
     </li>
   );

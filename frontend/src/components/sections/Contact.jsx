@@ -1,60 +1,42 @@
 import { profile } from '../../data/profile.js';
-import { siteConfig } from '../../config/site.js';
 import { Section } from '../layout/Section.jsx';
-import { SectionHeading } from '../ui/SectionHeading.jsx';
+import { SectionEyebrow } from '../ui/SectionHeading.jsx';
+import { MaskLines } from '../ui/MaskLines.jsx';
 import { Reveal } from '../ui/Reveal.jsx';
-import { Button } from '../ui/Button.jsx';
-import { CopyField } from '../ui/CopyField.jsx';
-import { PixelIcon } from '../ui/PixelIcon.jsx';
+import { ArrowLink } from '../ui/ArrowLink.jsx';
 import './Contact.css';
 
+/**
+ * Closing section. The heading is the largest type on the page after the
+ * hero, split across the width - first line left, second line right - with
+ * three plain actions underneath: email, GitHub, LinkedIn.
+ */
 export function Contact() {
   const { contact } = profile;
 
   return (
-    <Section id="contact">
-      <SectionHeading
-        id="contact"
-        index="05"
-        icon="mail"
-        title="Contact"
-        lede={profile.contactPitch}
-      />
+    <Section id="contact" className="contact">
+      <SectionEyebrow id="contact" />
+
+      <h2 className="contact__heading" id="contact-title">
+        <MaskLines lines={['Let’s {W}ork', '{T}ogether.']} stagger={140} />
+      </h2>
 
       <div className="contact__grid">
-        <Reveal className="contact__fields">
-          <CopyField
-            label="Email"
-            value={contact.email}
-            href={`mailto:${contact.email}`}
-            glyph="mail"
-          />
-          <CopyField label="Phone" value={contact.phone} href={`tel:+19193524669`} glyph="phone" />
-          <CopyField
-            label="GitHub"
-            value={`github.com/${contact.githubUser}`}
-            href={contact.github}
-            glyph="gitBranch"
-          />
-          <CopyField
-            label="LinkedIn"
-            value="linkedin.com/in/bryan-perez23"
-            href={contact.linkedin}
-            glyph="link"
-          />
+        <Reveal>
+          <p className="contact__pitch">{profile.contactPitch}</p>
         </Reveal>
 
-        <Reveal className="contact__resume notched" delay={120}>
-          <PixelIcon name="download" size={32} className="contact__resume-glyph" />
-          <h3 className="contact__resume-title">Resume</h3>
-          <p className="contact__resume-copy">
-            The full one-page version, with everything on this site condensed into
-            something you can forward.
-          </p>
-          <Button href={siteConfig.resumeUrl} external>
-            <PixelIcon name="download" size={16} />
-            Open resume (PDF)
-          </Button>
+        <Reveal className="contact__actions" delay={100}>
+          <ArrowLink href={`mailto:${contact.email}`} icon="mail">
+            Send an email
+          </ArrowLink>
+          <ArrowLink href={contact.github} external icon="github">
+            GitHub
+          </ArrowLink>
+          <ArrowLink href={contact.linkedin} external icon="linkedin">
+            LinkedIn
+          </ArrowLink>
         </Reveal>
       </div>
     </Section>

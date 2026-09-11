@@ -1,10 +1,10 @@
 /**
- * Generated data-flow diagram used as a project's preview image.
+ * Generated data-flow diagram used in place of a project screenshot.
  *
- * Real thumbnails would mean screenshots that go stale the moment the UI
- * changes, plus image weight on every card. A schematic drawn from the
- * project's own `preview.nodes` array stays accurate, costs nothing to load,
- * and says more about the system than a screenshot of a form would.
+ * Real screenshots go stale the moment the UI changes and add image weight to
+ * every row. A schematic drawn from the project's own `preview.nodes` array
+ * stays accurate, costs nothing to load, and says more about the system than
+ * a screenshot of a form would.
  *
  * @param {object} props
  * @param {string[]} props.nodes ordered stages of the data flow
@@ -18,10 +18,11 @@ export function ProjectSchematic({ nodes, projectName }) {
       <ol className="schematic__flow" aria-hidden="true">
         {nodes.map((node, index) => (
           <li className="schematic__node" key={node} style={{ '--i': index }}>
-            <span className="schematic__box notched--sm">{node}</span>
-            {index < nodes.length - 1 ? (
-              <span className="schematic__arrow" aria-hidden="true" />
-            ) : null}
+            <span className="schematic__box">
+              <span className="schematic__step">{String(index + 1).padStart(2, '0')}</span>
+              {node}
+            </span>
+            {index < nodes.length - 1 ? <span className="schematic__arrow" /> : null}
           </li>
         ))}
       </ol>

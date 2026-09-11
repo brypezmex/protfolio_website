@@ -13,20 +13,19 @@
 .modal__backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(4, 3, 6, 0.82);
-  backdrop-filter: blur(6px);
+  background: rgb(0 0 0 / 0.84);
+  backdrop-filter: blur(8px);
   animation: modal-fade var(--dur-mid) var(--ease-out);
 }
 
 .modal__panel {
   position: relative;
   z-index: 1;
-  width: min(920px, 100%);
+  width: min(1120px, 100%);
   margin-block: auto;
-  background: var(--bg-elev);
+  background: var(--bg);
   border: 1px solid var(--line-strong);
-  box-shadow: var(--shadow-card);
-  animation: modal-rise var(--dur-mid) var(--ease-out);
+  animation: modal-rise var(--dur-slow) var(--ease-expo);
 }
 
 .modal__panel:focus {
@@ -37,7 +36,7 @@
    but keyboard users still need to see where they are, so the border lights
    instead. */
 .modal__panel:focus-visible {
-  border-color: var(--red);
+  border-color: var(--text);
 }
 
 .modal__close {
@@ -47,21 +46,21 @@
   z-index: 2;
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
-  color: var(--text-dim);
-  border: 1px solid var(--line);
-  background: var(--surface);
+  width: 44px;
+  height: 44px;
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
   transition:
     color var(--t-fast) var(--ease-out),
-    border-color var(--t-fast) var(--ease-out),
-    background-color var(--t-fast) var(--ease-out);
+    background-color var(--t-fast) var(--ease-out),
+    border-color var(--t-fast) var(--ease-out);
 }
 
 .modal__close:hover {
-  color: var(--text);
-  border-color: var(--red);
-  background: var(--red-a08);
+  color: var(--bg);
+  background: var(--text);
+  border-color: var(--text);
 }
 
 @keyframes modal-fade {
@@ -73,6 +72,6 @@
 @keyframes modal-rise {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(32px);
   }
 }

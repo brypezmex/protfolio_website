@@ -14,7 +14,7 @@
    */
   transition:
     opacity var(--t-slow) var(--ease-out) calc(var(--reveal-delay) * var(--motion-scale)),
-    transform var(--t-slow) var(--ease-out) calc(var(--reveal-delay) * var(--motion-scale));
+    transform var(--t-slow) var(--ease-expo) calc(var(--reveal-delay) * var(--motion-scale));
 }
 
 .reveal--up {
@@ -27,6 +27,13 @@
 
 .reveal--fade {
   transform: none;
+}
+
+/* Divider lines draw in from the left edge instead of fading. */
+.reveal--line {
+  opacity: 1;
+  transform: scaleX(0);
+  transform-origin: left center;
 }
 
 .reveal.is-visible {

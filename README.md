@@ -1,8 +1,8 @@
 # Bryan Perez - Portfolio
 
-A personal portfolio built around a scroll-driven timeline, with a pixel-art
-visual identity. The primary experience is a single page that moves
-chronologically through education, research, projects, and involvement, with a
+A personal portfolio in a monochrome, type-led editorial style: a full-bleed
+black-and-white portrait with an oversized headline, then About, Projects, a
+chronological Timeline, Skills, and Contact on one scrolling page, with a
 detailed project system layered on top.
 
 The site is a static React build with an optional Flask API behind it. The
@@ -42,16 +42,18 @@ Third-party assets and their licences are documented in
 
 ### What it is
 
-A single-page portfolio. The spine of the site is a vertical timeline running
-from August 2023 to expected graduation in May 2027. Education, research,
-projects, and club involvement all appear on that one timeline rather than in
-four separate sections, because the progression between them is the point. A
-category filter lets a visitor who only wants to see projects get there in one
-click without losing that framing.
+A single-page portfolio. It opens on a full-screen photograph with the headline
+set over its darkest corner, then runs About, Projects, Timeline, Skills, and
+Contact.
 
-Below the timeline, a dedicated projects section carries the full breakdown for
-each project, opened as a modal dialog so the reader never loses their scroll
-position.
+The timeline runs from August 2023 to expected graduation in May 2027 and puts
+education, research, projects, and club involvement on one line rather than in
+four separate sections, because the progression between them is the point. A
+category filter lets a visitor who only wants one thread get there in one click
+without losing that framing.
+
+The projects section carries the full breakdown for each project, opened as a
+modal dialog so the reader never loses their scroll position.
 
 ### Architectural decisions
 
@@ -60,20 +62,22 @@ emits a small, well-chunked static bundle - a plain directory of files any web
 server can host, which is what makes home server deployment trivial.
 
 **Plain CSS with a design-token layer, not a CSS framework.** The visual
-identity relies on things utility frameworks make awkward: clip-path corner
-notches instead of border radius, crisp-edge pixel SVG, scanline overlays, and a
-scroll-linked gradient rail. Writing that as custom properties in
-`src/styles/tokens.css` plus one stylesheet per component keeps the CSS readable,
-keeps the shipped bundle small (about 7 KB gzipped), and means the entire site
-can be re-themed by editing one file.
+identity relies on things utility frameworks make awkward: a navigation bar
+blended with `mix-blend-mode: difference` so it reads over both the photograph
+and the black page, headings that rise line by line out of clipping masks,
+italic-serif accent letters inside a grotesk headline, and a scroll-linked
+photo zoom. Writing that as custom properties in `src/styles/tokens.css` plus
+one stylesheet per component keeps the CSS readable, keeps the shipped bundle
+small (under 7 KB gzipped), and means the entire site can be re-themed by
+editing one file.
 
 **No animation library.** Framer Motion and GSAP both solve problems this site
 does not have. Every reveal is an `IntersectionObserver` toggling a class, and
 every transition animates only `transform` and `opacity`, which the browser runs
-on the compositor. The two scroll-linked effects - the timeline rail fill and the
-page progress bar - use a single rAF-throttled passive scroll listener that
-writes a CSS custom property rather than React state, so scrolling never triggers
-a React render. That is roughly 50 KB of JavaScript not shipped.
+on the compositor. The hero photo's scroll-linked zoom uses a rAF-throttled
+passive scroll listener that writes a CSS custom property rather than React
+state, so scrolling never triggers a React render. That is roughly 50 KB of
+JavaScript not shipped.
 
 **One shared React context for the project system.** The timeline, the skills
 list, and the project grid all need to open the same project dialog. A context
@@ -92,14 +96,16 @@ object; no component changes.
 
 ### On tone
 
-The copy is deliberately plain. Section headings are labels - "About",
-"Timeline", "Projects" - not marketing sentences, and the hero opens with a name
-and a factual paragraph rather than a slogan in oversized type. Buttons are flat
-with hard borders rather than gradient fills, and there are no coloured glow
-effects. All of that is the difference between a portfolio and a product landing
-page, and the character comes from the pixel typefaces and icons instead. Keep
-that in mind when editing content: if a line would look at home on a startup's
-launch page, it does not belong here.
+The design is monochrome and led by type: a black ground, white type, two
+greys, and exactly one colour - the green availability dot in the nav. Section
+headings are short statements set large, with a few capitals swapped for an
+italic serif (written as `{S}` in the copy), and every section opens with a
+plain "[ 02 ] Projects" marker so the structure stays obvious even when the
+headline is a sentence.
+
+Body copy stays plain and first person: what was built and studied, with no
+superlatives. When editing headings, keep the accent letters to capitals and to
+a couple per line - the effect only works while it stays occasional.
 
 ---
 
@@ -107,31 +113,34 @@ launch page, it does not belong here.
 
 **Timeline**
 
-- Chronological entries grouped by year, with the year pinned in the gutter as
-  you scroll through its entries
-- A rail whose gradient fill tracks scroll position, with the brightest stop
-  always at the leading edge
-- Type-specific pixel icons for education, projects, research, and involvement
+- Chronological entries grouped by year, with the year pinned in the left
+  column as you scroll through its entries
+- Rules that draw in from the left as each entry scrolls into view
 - Stronger visual treatment for major milestones
-- Category filter chips, implemented as a radio group so keyboard users get
-  arrow-key navigation
+- Category filter set as a comma-separated run of words, implemented as a radio
+  group: one tab stop, arrow keys move the selection
 - Project entries link straight into the full project dialog
 
 **Projects**
 
-- Generated architecture schematics as card previews, drawn from each project's
-  own data - no screenshots to go stale, no image weight
+- Full-width numbered rows; the whole row is one target that opens the detail
+  dialog, with a hover fill and corner brackets
+- A screenshot of each live deploy that links straight to it; projects without
+  one fall back to a generated architecture schematic drawn from their data
 - Full detail dialog with a complete focus trap, scroll lock, and Escape to close
-- Placeholder-aware links: an unconfigured repository or demo renders as a
-  visibly inert chip rather than a dead `#` link
+- Placeholder-aware links: an unconfigured repository renders as a visibly
+  inert "soon" label rather than a dead `#` link
 - Optional live GitHub stats and demo liveness badges when the API is running
 
 **Site-wide**
 
-- Pixel-art type and icon system (see [section 15](#15-icons-and-fonts))
-- Sticky navigation with an `IntersectionObserver` scroll-spy active indicator
-- A distinct mobile navigation overlay, not a squeezed desktop bar
-- Animated pixel-field hero canvas that suspends when off-screen or backgrounded
+- Full-bleed hero photograph, preloaded from `index.html`, with a scroll-linked
+  zoom
+- Fixed three-column navigation - quick links, name, availability - blended
+  with `mix-blend-mode: difference`, with an `IntersectionObserver` scroll-spy
+- A distinct full-screen mobile menu, not a squeezed desktop bar
+- Headings that rise line by line out of clipping masks, and a hover "roll" on
+  links done with a text-shadow copy so screen readers hear each label once
 - Full `prefers-reduced-motion` support
 - Semantic landmarks, skip link, visible focus states, and verified colour
   contrast
@@ -146,8 +155,8 @@ launch page, it does not belong here.
 | Build | Vite 7 | Fast HMR, small chunked static output |
 | Styling | CSS custom properties, per-component stylesheets | Full control over the visual identity, tiny bundle, one-file theming |
 | Animation | `IntersectionObserver` and CSS transitions | No dependency, compositor-only, trivial reduced-motion support |
-| Icons | Pixelarticons, inlined at build time | 24 icons as SVG path data, no runtime dependency |
-| Fonts | Silkscreen, Pixelify Sans, Inter, JetBrains Mono | Pixel character where it counts, readable body copy where it matters |
+| Icons | Hand-authored SVG paths in `Icon.jsx` | Eight hairline icons plus GitHub and LinkedIn marks; no package, no build step |
+| Fonts | Inter Tight, Instrument Serif | One tight grotesk for everything, an italic serif for accent letters |
 | API | Flask 3 | On the resume; small enough for a home server |
 | HTTP | requests | Standard, sufficient for two outbound integrations |
 | WSGI | Gunicorn | Standard production server for Flask on Linux |
@@ -169,20 +178,19 @@ portfolio/
 │   ├── Dockerfile                 Build then serve via nginx
 │   ├── docker-nginx.conf          In-container nginx config
 │   ├── .env.example
-│   ├── scripts/
-│   │   └── build-icons.mjs        Extracts icon paths from pixelarticons
 │   ├── public/
 │   │   ├── favicon.svg
 │   │   ├── og-image.svg
 │   │   ├── robots.txt
 │   │   ├── sitemap.xml
+│   │   ├── images/                Hero photograph, 800w and 1448w
 │   │   └── resume/                Place resume.pdf here
 │   └── src/
 │       ├── main.jsx               Entry; style import order matters
 │       ├── App.jsx                Shell and section composition
 │       ├── config/site.js         All environment reads live here
 │       ├── data/                  Content: the single source of truth
-│       │   ├── profile.js         Identity, contact, about copy
+│       │   ├── profile.js         Identity, contact, hero and about copy
 │       │   ├── skills.js          Skill groups and coursework
 │       │   ├── projects.js        Project records
 │       │   ├── timeline.js        Chronological entries
@@ -198,11 +206,9 @@ portfolio/
 │       │   ├── useDialog.js          Focus trap and scroll lock
 │       │   └── useBackendConfig.js   Feature detection
 │       ├── components/
-│       │   ├── layout/            Nav, Footer, Section, progress bar
-│       │   ├── ui/                Button, Tag, Modal, PixelIcon, ...
-│       │   │   ├── pixelIcons.js               GENERATED - do not edit
-│       │   │   └── pixelarticons-LICENSE.txt   Vendored MIT licence
-│       │   └── sections/          Hero, About, Journey, Skills, ...
+│       │   ├── layout/            Nav, Footer, Section
+│       │   ├── ui/                ArrowLink, Icon, MaskLines, Modal, SceneStrip, ...
+│       │   └── sections/          Hero, About, Projects, Journey, ...
 │       ├── features/
 │       │   ├── timeline/          Timeline, entries, filters
 │       │   └── projects/          Context, cards, dialog, schematic
@@ -410,7 +416,8 @@ npm run preview
 ```
 
 The build splits React into its own chunk, so the initial payload is roughly
-16 KB gzipped of application code plus 60 KB of React and 7 KB of CSS.
+15 KB gzipped of application code plus 60 KB of React and 7 KB of CSS. The hero
+photograph is the heaviest single asset: 65 KB on phones, 200 KB on desktop.
 
 ---
 
@@ -562,10 +569,9 @@ object to the `projects` array:
   period: { start: '2026-09', end: null, label: 'September 2026 - Present' },
   status: 'in-progress',
   featured: true,
-  icon: 'briefcase',                      // key from components/ui/pixelIcons.js
 
   summary: 'A paragraph of real technical detail.',
-  highlights: ['Three short scannable lines', 'shown on the card face'],
+  highlights: ['Three short scannable lines', 'shown in the project row'],
   features: [
     { title: 'A capability', detail: 'What it does and why it was hard.' },
   ],
@@ -598,8 +604,8 @@ be authored in any order.
 To cross-link it from the skills list, add its id to the relevant `usedIn` arrays
 in `frontend/src/data/skills.js`.
 
-No component code changes for any of this. If the `icon` you want is not in
-`pixelIcons.js`, see [section 15](#15-icons-and-fonts).
+No component code changes for any of this. Rows are numbered by their position
+in the array, so reordering the array reorders the list.
 
 ---
 
@@ -637,27 +643,42 @@ GITHUB_REPOS=noirmore=brypezmex/NoirMore,wolfcafe=brypezmex/WolfCafe
 
 Nearly all visual change happens in `frontend/src/styles/tokens.css`.
 
-**Colours.** The accent ramp is `--red`, `--red-bright`, `--red-deep`,
-`--red-ink`, and `--ember`, plus four alpha variants. Change these and the entire
-site follows - buttons, the timeline rail, icons, focus rings. The surface ramp
-runs `--bg` through `--surface-3`. Text colours are `--text`, `--text-dim`, and
-`--text-faint`; all three are verified above 4.5:1 against `--bg`, so re-check
-contrast if you lighten the background.
+**Colours.** The palette is `--bg` through `--surface-2` for grounds,
+`--line` and `--line-strong` for rules, and `--text`, `--text-dim`, and
+`--text-faint` for type; all three text colours are verified above 4.5:1
+against `--bg`, so re-check contrast if you lighten the background. `--signal`
+is the single accent - the availability dot and a live demo's status. Keep it
+single: the photograph is the only thing on the page that should carry tone.
 
-**Typography.** Four families, each with one job - see
-[section 15](#15-icons-and-fonts). The type scale uses `clamp()` so sizes
-interpolate smoothly rather than jumping at breakpoints.
+**Typography.** Two families - see [section 15](#15-icons-and-fonts). The type
+scale uses `clamp()` so the oversized headings keep their proportions from
+phone to wide desktop without jumping at breakpoints. `--fs-hero` sets the
+hero headline and `--fs-display` the "Let's Work Together." heading.
 
-**Shape.** The site avoids `border-radius` entirely. Corners are cut with
-`clip-path` at `--notch` and `--notch-sm` via the `.notched` utility classes.
-Setting both to `0px` gives square corners; raising them makes the low-resolution
-look more pronounced.
+**Headings and accent letters.** Heading copy is an array with one string per
+rendered line; the hero and About headings live in `frontend/src/data/profile.js`,
+the others at the top of each section component. Wrap a letter in braces -
+`'Full-{S}tack'` - to set it in the italic serif. `AccentText.jsx` does the
+expansion and `MaskLines.jsx` animates each line up out of its own mask.
 
-**Flatness is deliberate.** There is one gradient on the site (the timeline rail)
-and no coloured glows. Buttons are flat fills with 2px borders. If you add a
-gradient CTA or a glowing shadow, the page will start reading as a product
-landing page again - that was the specific thing this design was corrected away
-from.
+**Shape.** Square corners everywhere, 1px rules, no shadows. Hover states are
+fills rather than glows: links wipe a white block in behind the label, and
+project rows fill grey from the bottom with corner brackets.
+
+**The navigation blend.** The desktop nav has no background; it is set with
+`mix-blend-mode: difference` so it inverts against whatever is behind it, and a
+separate fixed gradient (`.nav-scrim`) dims content scrolling underneath. Do
+not give `.nav` a background colour or put the mobile menu inside it - a
+difference-blended dark panel renders as transparent.
+
+**Changing the hero photograph.** Replace the two files in
+`frontend/public/images/` (`hero-800.jpg` and `hero-1448.jpg`), then update
+`PORTRAIT` in `frontend/src/components/sections/Hero.jsx` and the matching
+`<link rel="preload">` in `frontend/index.html` if the names or dimensions
+change. Strip EXIF data from phone photos before committing them - it can
+include GPS coordinates. `object-position` in `Hero.css` controls which part of
+the photo stays in frame when it is cropped, and `.hero__shade` holds the
+gradients that keep the nav and headline legible.
 
 **Motion.** `--dur-fast`, `--dur-mid`, and `--dur-slow` set the base durations.
 Components must use the derived `--t-fast`, `--t-mid`, and `--t-slow` tokens,
@@ -680,47 +701,24 @@ Licences, copyright holders, and the reasoning behind each choice are in
 
 ### Icons
 
-Icons come from **Pixelarticons** (MIT). The package is a devDependency; only the
-24 icons the site actually uses are extracted into
-`frontend/src/components/ui/pixelIcons.js` as inline SVG path data, so nothing
-from the package ships in the browser bundle.
-
-To add or change an icon, edit the `ICONS` map in
-`frontend/scripts/build-icons.mjs` and run:
-
-```bash
-npm run build:icons
-```
-
-Available names are listed at the top of the generated `pixelIcons.js`. Never
-edit that file by hand - it is overwritten.
-
-**Icon sizes are constrained on purpose.** `PixelIcon` snaps whatever size you
-pass to the nearest value in `SIZE_STEPS` (16, 20, 24, 32, 48, 64, 128). The
-artwork is on a 24-unit grid, so the rendered size decides whether a grid unit
-lands on a whole device pixel. Below about 16px the thinner strokes fall into the
-gaps and the icons visibly turn to mush; these steps were chosen by rendering the
-full set side by side at 12/16/20/24/32 and comparing. Passing `size={13}` will
-not produce a 13px icon, and that is intentional.
+The site uses seven hairline icons - arrows, a plus, a close mark, a download
+arrow - authored directly as SVG path data in
+`frontend/src/components/ui/Icon.jsx`. There is no icon package and no build
+step. To add one, draw it on the same 24-unit grid with a single 1.5-unit
+stroke and add its paths to the `ICONS` map. Icons default to `1em`, so they
+scale with the text beside them.
 
 ### Fonts
 
 | Family | Role |
 | --- | --- |
-| **Silkscreen** | Section labels, navigation, chips, metadata, the hero name |
-| **Pixelify Sans** | Headings and card titles |
-| **Inter** | Body copy |
-| **JetBrains Mono** | The terminal block and monospaced values |
+| **Inter Tight** | Everything: headings, navigation, labels, body copy |
+| **Instrument Serif** (italic) | Accent letters inside headings, index numbers, timeline years |
 
-The split is deliberate. Pixel faces carry the character, but they are poor at
-running text, so anything a recruiter actually reads in paragraph form stays in
-Inter. Silkscreen is used uppercase and small, which is what it was drawn for;
-Pixelify Sans has real lowercase and holds up at heading sizes.
-
-Two tracking rules worth knowing if you edit the type: pixel faces need
-**positive or zero letter-spacing** - tightening them closes the gaps that make
-them read as pixel art - and headings deliberately set `letter-spacing: 0` rather
-than the negative tracking a normal display face would want.
+One face at one weight (500) carries the whole hierarchy through size alone;
+the italic serif is the only contrast, and it is used a letter at a time. Large
+headings are tracked slightly negative (`--ls-display`, `--ls-heading`) so they
+set as solid blocks; body copy stays at normal tracking.
 
 Fonts load from Google Fonts. See ATTRIBUTIONS.md for how to self-host them if
 you would rather not depend on an external CDN.
@@ -810,16 +808,22 @@ as a package.
 at build time. Restart `npm run dev`, or rebuild for production. In Docker they
 must be passed as build `args`.
 
-**An icon renders as nothing.** The name is not in `pixelIcons.js`. `PixelIcon`
-logs a warning in development and renders nothing rather than breaking layout.
-Add it to `scripts/build-icons.mjs` and run `npm run build:icons`.
+**An icon renders as nothing.** The name is not in the `ICONS` map in
+`Icon.jsx`. `Icon` logs a warning in development and renders nothing rather
+than breaking layout.
 
-**An icon looks blurry or filled in.** It is being rendered too small. See the
-size note in [section 15](#15-icons-and-fonts) - 16px is the floor.
-
-**Headings render in a fallback font.** Pixelify Sans failed to load. Check the
-Google Fonts `<link>` in `index.html` and, if a CSP is in force, that
+**Headings render in a fallback font, or accent letters look like plain
+Times.** Inter Tight or Instrument Serif failed to load. Check the Google Fonts
+`<link>` in `index.html` and, if a CSP is in force, that
 `fonts.googleapis.com` and `fonts.gstatic.com` are allowed.
+
+**The hero is a black screen.** The photograph did not load. Check that
+`frontend/public/images/hero-800.jpg` and `hero-1448.jpg` exist and that the
+paths in `Hero.jsx` match them.
+
+**The footer name overflows or falls short of the full width.** Its size is the
+content width divided by the name's set width in em. If `profile.name` changes,
+re-measure the divisor in `.footer__wordmark` in `Footer.css`.
 
 **A project's demo badge says "Not deployed".** No `PROJECT_SERVICE_<KEY>` is set
 for that project's `service.key`, or `ENABLE_STATUS` is false. The key is

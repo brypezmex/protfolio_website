@@ -6,13 +6,11 @@ import { Timeline } from '../../features/timeline/Timeline.jsx';
 import { TimelineFilters } from '../../features/timeline/TimelineFilters.jsx';
 
 /**
- * The chronological spine of the site.
- *
- * Education, research, projects, and involvement all live on one timeline
- * rather than in four separate sections, because the point is the progression
- * between them. The category filter gives a recruiter scanning for one specific
- * thing - "just show me the projects" - a way to get there without losing that
- * framing.
+ * Education, research, projects, and involvement on one timeline rather than
+ * in four separate sections, because the point is the progression between
+ * them. The category filter gives a recruiter scanning for one specific
+ * thing - "just show me the research" - a way to get there without losing
+ * that framing.
  */
 export function Journey() {
   const [category, setCategory] = useState('all');
@@ -38,10 +36,8 @@ export function Journey() {
     <Section id="journey">
       <SectionHeading
         id="journey"
-        index="02"
-        icon="clock"
-        title="Timeline"
-        lede="Coursework, research, projects, and clubs, in the order they happened."
+        title={['{C}oursework, {R}esearch,', '{P}rojects {&} {C}lubs.']}
+        lede="In the order they happened, from starting at NC State in 2023 to graduating in 2027."
       />
 
       <TimelineFilters value={category} onChange={setCategory} counts={counts} />

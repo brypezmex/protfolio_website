@@ -1,49 +1,48 @@
 import { resolveProjectLinks } from '../../config/site.js';
-import { PixelIcon } from '../../components/ui/PixelIcon.jsx';
+import { ArrowLink } from '../../components/ui/ArrowLink.jsx';
+import { Icon } from '../../components/ui/Icon.jsx';
 import { cn } from '../../utils/cn.js';
 
 /**
  * Outbound links for a project.
  *
- * A link that has not been configured yet renders as a visibly inert chip
- * rather than disappearing or pointing at '#'. That keeps the card layout
- * stable as real URLs are filled in, and tells a visitor that the repository
- * exists but is not published yet instead of silently doing nothing.
+ * The live demo is reached through the project's preview screenshot (see
+ * ProjectVisual in ProjectRow.jsx), so only the source link is listed here.
+ *
+ * A link that has not been configured yet renders as a visibly inert label
+ * rather than disappearing or pointing at '#'. That keeps the layout stable as
+ * real URLs are filled in, and tells a visitor that the repository exists but
+ * is not published yet instead of silently doing nothing.
  *
  * @param {object} props
  * @param {object} props.project
- * @param {'card'|'detail'} [props.variant='card']
+ * @param {'row'|'detail'} [props.variant='row']
  */
-export function ProjectLinks({ project, variant = 'card' }) {
+export function ProjectLinks({ project, variant = 'row' }) {
   const links = resolveProjectLinks(project);
 
-  const items = [
-    { key: 'github', label: 'Source', glyph: 'github', url: links.github },
-    { key: 'demo', label: 'Live demo', glyph: 'externalLink', url: links.demo },
-  ];
+  const items = [{ key: 'github', label: 'Source', url: links.github }];
 
   return (
     <ul className={cn('plinks', `plinks--${variant}`)}>
       {items.map((item) =>
         item.url ? (
           <li key={item.key}>
-            <a
-              className="plink"
+            <ArrowLink
               href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              external
+              size="sm"
+              aria-label={`${item.label} for ${project.name} (opens in a new tab)`}
             >
-              <PixelIcon name={item.glyph} size={16} />
               {item.label}
-              <span className="sr-only"> for {project.name} (opens in a new tab)</span>
-            </a>
+            </ArrowLink>
           </li>
         ) : (
           <li key={item.key}>
-            <span className="plink plink--pending" aria-disabled="true">
-              <PixelIcon name={item.glyph} size={16} />
+            <span className="plink-pending" aria-disabled="true">
+              <Icon name="arrowUpRight" className="plink-pending__icon" />
               {item.label}
-              <span className="plink__note">soon</span>
+              <span className="plink-pending__note">soon</span>
             </span>
           </li>
         ),

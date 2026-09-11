@@ -1,101 +1,67 @@
 /*
  * Design tokens.
  *
- * Single source of truth for the visual system. Changing the accent ramp or the
- * surface ramp here re-themes the entire site; no component hardcodes a color.
+ * Single source of truth for the visual system. The palette is strictly
+ * monochrome - black ground, white type, two greys - so the hero photograph is
+ * the only image-like thing on the page and nothing competes with it. No
+ * component hardcodes a colour.
  */
 
 :root {
   /* ---- Surfaces (darkest to lightest) ---- */
-  --bg: #08070a;
-  --bg-elev: #0e0d11;
-  --surface: #131217;
-  --surface-2: #1a181f;
-  --surface-3: #221f28;
+  --bg: #0f0f0f;
+  --bg-elev: #141414;
+  --surface: #1a1a1a;
+  --surface-2: #232323;
 
   /* ---- Lines ---- */
-  --line: #26232c;
-  --line-strong: #3a3642;
+  --line: #262626;
+  --line-strong: #3e3e3e;
 
   /* ---- Text (all verified >= 4.5:1 against --bg) ---- */
-  --text: #f0edf2;
-  --text-dim: #a7a2b0;
-  --text-faint: #7d7889;
+  --text: #ffffff;
+  --text-dim: #a3a3a3;
+  --text-faint: #828282;
 
-  /* ---- Accent ramp ---- */
-  --red: #ff3345;
-  --red-bright: #ff5e6b;
-  --red-deep: #b3121f;
-  --red-ink: #7a0d16;
-  --ember: #ff8a3d;
-
-  /* Alpha variants, used for glows and washes. Kept as tokens so the glow
-     intensity can be tuned globally rather than per component. */
-  --red-a08: rgba(255, 51, 69, 0.08);
-  --red-a16: rgba(255, 51, 69, 0.16);
-  --red-a32: rgba(255, 51, 69, 0.32);
-  --red-a56: rgba(255, 51, 69, 0.56);
-
-  /*
-   * The accent gradient is used sparingly and only on decorative surfaces -
-   * the timeline rail and thin rules. It is deliberately kept off buttons and
-   * headings: gradient CTAs and gradient text are the visual signature of a
-   * product landing page, which is not what this site is.
-   */
-  --gradient-rail: linear-gradient(
-    180deg,
-    var(--red-ink) 0%,
-    var(--red-deep) 45%,
-    var(--red) 85%,
-    var(--ember) 100%
-  );
+  /* The one non-grey colour: the availability dot in the nav. */
+  --signal: #15ff00;
 
   /* ---- Typography ---------------------------------------------------------
    *
-   * Four families, each with one job:
+   * Two families:
    *
-   *   --font-pixel    Silkscreen. Section labels, nav, chips, metadata, and
-   *                   the name in the header. Drawn on a pixel grid, so it
-   *                   carries the site's character. Uppercase only in use -
-   *                   it is designed for small sizes and reads poorly as
-   *                   running text.
-   *   --font-display  Pixelify Sans. Headings. Pixel construction but with
-   *                   real lowercase and enough weight range to stay legible
-   *                   at large sizes.
-   *   --font-sans     Inter. Body copy. A portfolio is read by recruiters;
-   *                   paragraphs stay in a typeface built for reading.
-   *   --font-mono     JetBrains Mono. The terminal block and code-ish values.
+   *   --font-sans    Inter Tight. Everything - headings, navigation, body.
+   *                  A tightened-tracking grotesk built for display sizes,
+   *                  so it stays legible from the hero headline down to the
+   *                  nav labels without switching faces.
+   *   --font-accent  Instrument Serif italic. Used for single letters inside
+   *                  headings ("Full-Stack" with a serif italic S), bracketed
+   *                  index numbers, and the odd editorial flourish. Never for
+   *                  running text.
    *
-   * Both pixel faces are SIL Open Font License 1.1 - see ATTRIBUTIONS.md.
+   * Both are SIL Open Font License 1.1 - see ATTRIBUTIONS.md.
    * ------------------------------------------------------------------------ */
-  --font-pixel: 'Silkscreen', 'Courier New', monospace;
-  --font-display: 'Pixelify Sans', 'Silkscreen', 'Courier New', monospace;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Helvetica, Arial, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono',
-    Menlo, Consolas, 'Liberation Mono', monospace;
+  --font-sans: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-accent: 'Instrument Serif', Georgia, 'Times New Roman', serif;
 
-  /* Fluid scale. clamp() means no layout-shifting breakpoint jumps.
-     The display sizes are smaller than they were: oversized hero type is
-     another landing-page tell, and Silkscreen reads as larger than its
-     nominal size because every glyph fills its box. */
-  --fs-display: clamp(2rem, 1.1rem + 4.2vw, 4rem);
-  --fs-h1: clamp(1.5rem, 1.1rem + 1.9vw, 2.35rem);
-  --fs-h2: clamp(1.25rem, 1rem + 1.2vw, 1.75rem);
-  --fs-h3: clamp(1.05rem, 0.95rem + 0.55vw, 1.3rem);
-  --fs-body-lg: clamp(1rem, 0.95rem + 0.3vw, 1.0625rem);
+  /* Fluid scale. clamp() interpolates with the viewport so the big type keeps
+     its proportions from phone to wide desktop without breakpoint jumps. */
+  --fs-hero: clamp(2.75rem, 0.75rem + 6.6vw, 9rem);
+  --fs-display: clamp(3.25rem, 0.5rem + 9.6vw, 11.5rem);
+  --fs-h2: clamp(1.875rem, 1rem + 2.35vw, 3.75rem);
+  --fs-h3: clamp(1.625rem, 0.9rem + 1.8vw, 3rem);
+  --fs-h4: clamp(1.25rem, 1rem + 0.75vw, 1.75rem);
+  --fs-lg: clamp(1.0625rem, 0.95rem + 0.35vw, 1.375rem);
   --fs-body: 1rem;
   --fs-sm: 0.875rem;
-  --fs-xs: 0.75rem;
-  --fs-mono-label: 0.6875rem;
-  --fs-pixel-label: 0.625rem;
+  --fs-nav: clamp(0.8125rem, 0.75rem + 0.15vw, 0.9375rem);
 
-  --lh-tight: 1.05;
-  --lh-snug: 1.25;
-  --lh-body: 1.65;
+  --lh-tight: 1;
+  --lh-snug: 1.15;
+  --lh-body: 1.6;
 
-  --ls-label: 0.14em;
-  --ls-tight: -0.02em;
+  --ls-display: -0.035em;
+  --ls-heading: -0.02em;
 
   /* ---- Spacing ---- */
   --space-1: 0.25rem;
@@ -111,30 +77,24 @@
   --space-16: 7rem;
   --space-20: 9rem;
 
-  /* ---- Layout ---- */
-  --shell-max: 1180px;
-  --shell-pad: clamp(1.25rem, 4vw, 3rem);
-  --nav-h: 64px;
+  /* Vertical rhythm between top-level sections. */
+  --section-pad: clamp(5rem, 11vw, 11rem);
 
-  /* ---- Shape ---- */
-  /* The site avoids border-radius. "Pixel" corners are cut with clip-path at
-     this size, which reads as low-resolution rather than rounded. */
-  --notch: 10px;
-  --notch-sm: 6px;
+  /* ---- Layout ---- */
+  /* The layout is full-bleed: content runs edge to edge with a single gutter,
+     and the max width only exists so ultra-wide screens do not produce
+     absurd line lengths. */
+  --shell-max: 1920px;
+  --shell-pad: clamp(1.25rem, 2.4vw, 2.75rem);
+  --nav-h: 76px;
 
   /* ---- Motion ---- */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --dur-fast: 160ms;
-  --dur-mid: 320ms;
-  --dur-slow: 720ms;
-
-  /* ---- Elevation ----
-   * Kept deliberately flat. Soft drop shadows and coloured glows read as
-   * "product UI"; hard borders and a hairline highlight read as a built
-   * thing, which suits a pixel aesthetic better. */
-  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03);
-  --shadow-lift: 0 10px 28px -20px rgba(0, 0, 0, 0.9);
+  --ease-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --dur-fast: 180ms;
+  --dur-mid: 420ms;
+  --dur-slow: 900ms;
 
   --z-nav: 100;
   --z-overlay: 200;

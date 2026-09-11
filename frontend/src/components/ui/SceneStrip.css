@@ -1,0 +1,33 @@
+.scene-strip {
+  position: relative;
+  width: 100%;
+  height: clamp(260px, 34vw, 520px);
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+  overflow: hidden;
+  background: var(--bg);
+  cursor: default;
+}
+
+.scene-strip canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.scene-strip__caption {
+  position: absolute;
+  left: var(--shell-pad);
+  bottom: var(--space-3);
+  font-family: var(--font-accent);
+  font-size: var(--fs-sm);
+  color: var(--text-faint);
+  pointer-events: none;
+}
+
+@media (max-width: 560px) {
+  /* The caption reads as filler at this width and the hover cue does not
+     apply on touch anyway. */
+  .scene-strip__caption {
+    display: none;
+  }
+}

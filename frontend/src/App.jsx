@@ -2,7 +2,6 @@ import { useBackendConfig } from './hooks/useBackendConfig.js';
 import { ProjectsProvider } from './features/projects/ProjectsProvider.jsx';
 import { Nav } from './components/layout/Nav.jsx';
 import { Footer } from './components/layout/Footer.jsx';
-import { ScrollProgressBar } from './components/layout/ScrollProgressBar.jsx';
 import { Hero } from './components/sections/Hero.jsx';
 import { About } from './components/sections/About.jsx';
 import { Journey } from './components/sections/Journey.jsx';
@@ -21,14 +20,14 @@ export function App() {
       </a>
 
       <Nav />
-      <ScrollProgressBar />
 
+      {/* Order must match data/navigation.js. */}
       <main id="main">
         <Hero />
         <About />
+        <Projects />
         <Journey />
         <Skills />
-        <Projects />
         <Contact />
       </main>
 

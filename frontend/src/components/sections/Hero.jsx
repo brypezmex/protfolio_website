@@ -1,116 +1,65 @@
 import { profile } from '../../data/profile.js';
-import { siteConfig } from '../../config/site.js';
-import { Button } from '../ui/Button.jsx';
-import { PixelField } from '../ui/PixelField.jsx';
-import { PixelIcon } from '../ui/PixelIcon.jsx';
+import { useScrollProgress } from '../../hooks/useScrollProgress.js';
+import { Icon } from '../ui/Icon.jsx';
+import { MaskLines } from '../ui/MaskLines.jsx';
+import { Roll } from '../ui/Roll.jsx';
 import './Hero.css';
 
 /**
- * Terminal readout shown beside the name.
- *
- * Every line is a fact from the resume rendered in a developer idiom. The
- * staggered entrance is CSS-only (see Hero.css) rather than a character-by-
- * character typing effect, which reads as a gimmick and forces a re-layout on
- * every frame.
+ * The portrait. Served from /public so index.html can preload it - it is the
+ * largest thing on the first screen, and waiting for the JS bundle to discover
+ * it would delay the page's first meaningful paint. The 800w file covers
+ * phones; the 1448w file is the full-resolution original (EXIF stripped).
  */
-const TERMINAL_LINES = [
-  { kind: 'cmd', text: 'whoami' },
-  { kind: 'out', text: 'bryan-perez -- b.s. computer science, nc state' },
-  { kind: 'cmd', text: 'ls ~/stack' },
-  { kind: 'out', text: 'java  python  javascript  c  r' },
-  { kind: 'out', text: 'react  flask  spring-boot  mysql' },
-  { kind: 'cmd', text: 'cat ~/status' },
-  { kind: 'ok', text: 'open to swe internships and new-grad roles' },
-];
+const PORTRAIT = {
+  src: '/images/hero-1448.jpg',
+  srcSet: '/images/hero-800.jpg 800w, /images/hero-1448.jpg 1448w',
+  width: 1448,
+  height: 1086,
+  alt: `${profile.name} working on a laptop in an office`,
+};
 
 /**
- * Opening section.
+ * Opening screen: the photograph full-bleed, the headline set over its darkest
+ * corner, and a thin row of facts along the bottom edge.
  *
- * Leads with the name and a factual paragraph rather than a headline. An
- * earlier version opened with a slogan set in oversized display type, which is
- * how a product announces itself, not how a person introduces themselves.
+ * As the hero scrolls away the photo zooms and drifts slower than the page,
+ * driven by a CSS variable (see useScrollProgress) rather than React state.
  */
 export function Hero() {
+  const ref = useScrollProgress('--hero-progress', { anchor: 0 });
+
   return (
-    <section className="hero" id="top" aria-labelledby="top-title">
-      <PixelField />
+    <section className="hero" id="top" aria-labelledby="top-title" ref={ref}>
+      <div className="hero__media">
+        <img
+          className="hero__image"
+          src={PORTRAIT.src}
+          srcSet={PORTRAIT.srcSet}
+          sizes="100vw"
+          width={PORTRAIT.width}
+          height={PORTRAIT.height}
+          alt={PORTRAIT.alt}
+          fetchPriority="high"
+        />
+      </div>
+      <div className="hero__shade" aria-hidden="true" />
 
-      <div className="hero__inner shell above">
-        <div className="hero__content">
-          <p className="hero__eyebrow label">
-            <span className="hero__eyebrow-dot" aria-hidden="true" />
-            {profile.location}
-            <span className="hero__eyebrow-sep" aria-hidden="true">
-              /
-            </span>
-            Class of 2027
-          </p>
+      <div className="hero__content shell">
+        <h1 className="hero__title" id="top-title">
+          <span className="sr-only">{profile.name}, </span>
+          <MaskLines lines={profile.headline} immediate delay={250} stagger={110} />
+        </h1>
 
-          <h1 className="hero__name" id="top-title">
-            <span className="hero__name-line">Bryan</span>
-            <span className="hero__name-line text-accent">Perez</span>
-          </h1>
-
-          <p className="hero__role">{profile.role}</p>
-          <p className="hero__intro">{profile.intro}</p>
-
-          <div className="hero__actions">
-            <Button href="#projects">
-              Projects
-              <PixelIcon name="chevronRight" size={16} />
-            </Button>
-            <Button href={siteConfig.resumeUrl} variant="outline" external>
-              <PixelIcon name="download" size={16} />
-              Resume
-            </Button>
-          </div>
-        </div>
-
-        {/*
-          Repeats information that appears in the sections below, but it is real
-          text - readable, selectable, and available to screen readers.
-        */}
-        <div className="hero__terminal notched" aria-label="Summary">
-          <div className="hero__terminal-bar">
-            <span className="hero__terminal-dots" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </span>
-            <span className="hero__terminal-title">bryan@portfolio: ~</span>
-          </div>
-
-          <div className="hero__terminal-body">
-            {TERMINAL_LINES.map((line, index) => (
-              <p
-                key={line.text}
-                className={`hero__line hero__line--${line.kind}`}
-                style={{ '--i': index }}
-              >
-                {line.kind === 'cmd' ? (
-                  <span className="hero__prompt" aria-hidden="true">
-                    $
-                  </span>
-                ) : null}
-                {line.text}
-              </p>
-            ))}
-            <p className="hero__line hero__line--cmd" style={{ '--i': TERMINAL_LINES.length }}>
-              <span className="hero__prompt" aria-hidden="true">
-                $
-              </span>
-              <span className="hero__caret" aria-hidden="true" />
-            </p>
-          </div>
+        <div className="hero__meta">
+          <p>{profile.role}</p>
+          <p className="hero__meta-location">{profile.location}</p>
+          <a className="hero__scroll roll-trigger" href="#about">
+            <Roll>Scroll</Roll>
+            <Icon name="arrowDown" className="hero__scroll-icon" />
+          </a>
         </div>
       </div>
-
-      <a className="hero__scroll" href="#about">
-        <span className="label">Scroll</span>
-        <span className="hero__scroll-track" aria-hidden="true">
-          <span className="hero__scroll-dot" />
-        </span>
-      </a>
     </section>
   );
 }

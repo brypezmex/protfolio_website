@@ -1,41 +1,39 @@
+.contact {
+  padding-bottom: var(--section-pad);
+}
+
+.contact__heading {
+  margin-bottom: clamp(3rem, 7vw, 7rem);
+  font-size: var(--fs-display);
+  line-height: 0.92;
+  letter-spacing: var(--ls-display);
+  text-wrap: initial;
+}
+
+/* "Let's Work" on the left, "Together." pushed to the right edge. */
+.contact__heading .mask-line:nth-child(2) {
+  text-align: right;
+}
+
 .contact__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-  gap: clamp(1.5rem, 5vw, var(--space-8));
-  align-items: start;
-}
-
-.contact__fields {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-7);
+  max-width: 34rem;
 }
 
-.contact__resume {
+.contact__pitch {
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--text-faint);
+}
+
+.contact__actions {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-4);
-  padding: var(--space-7);
-  background: linear-gradient(155deg, var(--red-a16), transparent 60%), var(--surface);
-  border: 1px solid var(--line-strong);
-}
-
-.contact__resume-glyph {
-  color: var(--red);
-}
-
-.contact__resume-title {
-  font-size: var(--fs-h3);
-}
-
-.contact__resume-copy {
-  font-size: var(--fs-sm);
-  color: var(--text-dim);
-}
-
-@media (max-width: 860px) {
-  .contact__grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
+  flex-wrap: wrap;
+  align-items: center;
+  /* Wider than the ArrowLinks' own negative inline margin, so each one's
+     hover fill never touches its neighbour's. */
+  gap: var(--space-2) var(--space-7);
 }

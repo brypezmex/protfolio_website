@@ -30,7 +30,7 @@ export function useMediaQuery(query) {
  * True when the visitor has asked for reduced motion.
  *
  * CSS already neutralizes every transition (see tokens.css). This hook exists
- * for motion that CSS cannot reach - specifically the canvas animation loop,
+ * for motion that CSS cannot reach, such as a script-driven animation loop,
  * which must not run at all rather than run invisibly.
  */
 export function usePrefersReducedMotion() {

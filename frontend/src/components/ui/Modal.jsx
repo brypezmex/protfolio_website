@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useFocusTrap, useLockBodyScroll } from '../../hooks/useDialog.js';
-import { PixelIcon } from './PixelIcon.jsx';
+import { Icon } from './Icon.jsx';
 import './Modal.css';
 
 /**
@@ -53,7 +53,7 @@ export function Modal({ open, onClose, label, children }) {
     <div className="modal" onClick={onBackdropClick}>
       <div className="modal__backdrop" aria-hidden="true" />
       <div
-        className="modal__panel notched"
+        className="modal__panel"
         role="dialog"
         aria-modal="true"
         aria-label={label}
@@ -62,7 +62,7 @@ export function Modal({ open, onClose, label, children }) {
       >
         <button className="modal__close" type="button" onClick={onClose}>
           <span className="sr-only">Close dialog</span>
-          <PixelIcon name="close" size={16} />
+          <Icon name="close" size={20} />
         </button>
         {children}
       </div>

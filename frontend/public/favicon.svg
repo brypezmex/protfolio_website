@@ -1,13 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
-  <rect width="32" height="32" fill="#08070a"/>
-  <!-- Pixel "B" in the site's accent red, matching the glyph system. -->
-  <g fill="#ff3345">
-    <rect x="7" y="7" width="4" height="18"/>
-    <rect x="11" y="7" width="9" height="4"/>
-    <rect x="20" y="9" width="4" height="4"/>
-    <rect x="11" y="13" width="9" height="4"/>
-    <rect x="20" y="17" width="4" height="4"/>
-    <rect x="11" y="21" width="9" height="4"/>
-  </g>
-  <rect x="7" y="27" width="17" height="2" fill="#ff8a3d"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#0f0f0f"/>
+  <!-- Italic serif "B", echoing the accent letters in the site's headings. -->
+  <text x="15.5" y="24.5" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-size="25" fill="#ffffff">B</text>
+  <rect x="24" y="5" width="4" height="4" fill="#15ff00"/>
 </svg>

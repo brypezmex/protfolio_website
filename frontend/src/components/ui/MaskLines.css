@@ -1,0 +1,28 @@
+.mask-lines {
+  display: block;
+}
+
+/*
+ * Each line is its own clipping box. The padding gives descenders and the
+ * italic accent's overhang room inside the clip, and the matching negative
+ * margin cancels it out of the layout so line spacing is unaffected.
+ */
+.mask-line {
+  display: block;
+  overflow: hidden;
+  padding: 0 0.12em 0.14em 0;
+  margin: 0 -0.12em -0.14em 0;
+}
+
+.mask-line__inner {
+  --mask-delay: 0ms;
+
+  display: block;
+  transform: translateY(120%);
+  transition: transform var(--t-slow) var(--ease-expo)
+    calc(var(--mask-delay) * var(--motion-scale));
+}
+
+.mask-lines.is-visible .mask-line__inner {
+  transform: none;
+}

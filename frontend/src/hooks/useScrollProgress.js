@@ -5,17 +5,22 @@ import { useEffect, useRef } from 'react';
  * result to a CSS custom property on that element.
  *
  * Deliberately does not use React state. Progress changes on every frame of a
- * scroll; routing that through setState would re-render the timeline dozens of
- * times per second. Writing `--progress` instead lets CSS animate the rail fill
- * with no React involvement at all.
+ * scroll; routing that through setState would re-render the tracked subtree
+ * dozens of times per second. Writing a custom property instead lets CSS drive
+ * the effect (the hero's photo zoom) with no React involvement at all.
  *
  * The scroll listener is passive and rAF-throttled, so at most one layout read
  * happens per frame regardless of how many scroll events fire.
  *
  * @param {string} [property='--progress'] custom property to write (0 to 1)
+ * @param {object} [options]
+ * @param {number} [options.anchor=0.55] where in the viewport, as a fraction of
+ *   its height, the progress line sits. 0 measures from the top edge, so an
+ *   element that starts at the top of the page reads 0 at load and 1 once it
+ *   has scrolled fully out of view.
  * @returns {React.RefObject<HTMLElement>} attach to the element being tracked
  */
-export function useScrollProgress(property = '--progress') {
+export function useScrollProgress(property = '--progress', { anchor = 0.55 } = {}) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -28,7 +33,7 @@ export function useScrollProgress(property = '--progress') {
       frame = 0;
 
       const rect = el.getBoundingClientRect();
-      const viewportAnchor = window.innerHeight * 0.55;
+      const viewportAnchor = window.innerHeight * anchor;
 
       // 0 when the anchor line reaches the top of the element, 1 when it
       // reaches the bottom.
@@ -48,9 +53,9 @@ export function useScrollProgress(property = '--progress') {
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
 
-    // The tracked element can change height without the window resizing - the
-    // timeline does exactly that when a category filter is applied. Without
-    // this the fill would stay at its pre-filter length until the next scroll.
+    // The tracked element can change height without the window resizing (late
+    // font loads, filtered lists). Without this the value would stay stale
+    // until the next scroll.
     const observer =
       typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(schedule);
     observer?.observe(el);
@@ -61,7 +66,7 @@ export function useScrollProgress(property = '--progress') {
       window.removeEventListener('resize', schedule);
       observer?.disconnect();
     };
-  }, [property]);
+  }, [property, anchor]);
 
   return ref;
 }

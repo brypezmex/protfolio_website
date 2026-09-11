@@ -11,7 +11,6 @@ export const skillGroups = [
   {
     id: 'languages',
     label: 'Languages',
-    icon: 'code',
     skills: [
       { name: 'Java', usedIn: ['wolfcafe'] },
       { name: 'Python', usedIn: ['noirmore'] },
@@ -23,7 +22,6 @@ export const skillGroups = [
   {
     id: 'frameworks',
     label: 'Frameworks & Libraries',
-    icon: 'package',
     skills: [
       { name: 'React', usedIn: ['noirmore', 'wolfcafe'] },
       { name: 'Flask', usedIn: ['noirmore'] },
@@ -33,13 +31,11 @@ export const skillGroups = [
   {
     id: 'databases',
     label: 'Databases',
-    icon: 'database',
     skills: [{ name: 'MySQL', usedIn: [] }],
   },
   {
     id: 'tools',
     label: 'Tools & Technologies',
-    icon: 'terminal',
     skills: [
       { name: 'Git', usedIn: [] },
       { name: 'GitHub', usedIn: [] },

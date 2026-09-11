@@ -14,9 +14,13 @@
  *             maps it to a real URL from server-side config. This is how a
  *             home-server-hosted demo reports liveness without the browser ever
  *             learning the server address.
- * preview     Drives the generated schematic thumbnail. `nodes` is the data
- *             flow through the system, rendered by ProjectSchematic.
- * icon        Key from components/ui/pixelIcons.js.
+ * preview     `nodes` is the data flow through the system, rendered by
+ *             ProjectSchematic as the project's visual by default. `image`
+ *             overrides that with a real screenshot instead - set it once a
+ *             project has a live, presentable deploy - and the screenshot
+ *             links out to the resolved demo URL, as does the "Demo" fact in
+ *             the detail dialog (there is no separate "Live demo" button).
+ *             `imageAlt` describes it.
  *
  * Copy style: describe what the thing does and how it is built. No product
  * pitch, no superlatives - this is a portfolio, not a launch page.
@@ -32,7 +36,6 @@ export const projects = [
     period: { start: '2026-02', end: '2026-02', label: 'February 2026' },
     status: 'complete',
     featured: true,
-    icon: 'search',
 
     summary:
       'A user submits a claim. A Python pipeline collects evidence from Wikipedia, Google Scholar, Reuters, AP, BBC, and NPR, ranks those sources by reliability, and a custom analysis algorithm compares the evidence against the claim to produce a verdict and a confidence score. The hard part was less the algorithm than everything around it - scrapers time out, sources rate-limit, and the classification thresholds needed tuning before the output was trustworthy.',
@@ -71,11 +74,13 @@ export const projects = [
 
     preview: {
       nodes: ['React + Vite', 'Flask REST API', 'Evidence Pipeline', 'Ranked Sources'],
+      image: '/images/noiremore-preview.jpg',
+      imageAlt: 'The NoirMore home screen with its claim search bar',
     },
 
     links: {
       github: '#',
-      demo: '#',
+      demo: 'https://noiremore.bryan-perez.com/',
     },
 
     service: { key: 'noirmore', label: 'NoirMore demo' },
@@ -90,7 +95,6 @@ export const projects = [
     period: { start: '2026-01', end: '2026-04', label: 'January - April 2026' },
     status: 'complete',
     featured: true,
-    icon: 'coffee',
 
     summary:
       'A Spring Boot service with a strict Controller / Service / Repository / Entity / DTO separation, JWT authentication, and role boundaries between Admin, Staff, and Customer. Orders move through Pending, Fulfilled, and Picked Up, and the totals have to stay correct while recipe pricing, inventory validation, tax, and tips are all applied.',
@@ -128,11 +132,13 @@ export const projects = [
 
     preview: {
       nodes: ['React Client', 'Controller', 'Service', 'Repository'],
+      image: '/images/wolfcafe-preview.jpg',
+      imageAlt: 'The WolfCafe login screen',
     },
 
     links: {
       github: '#',
-      demo: '#',
+      demo: 'https://wolfcafe.bryan-perez.com/',
     },
 
     service: { key: 'wolfcafe', label: 'WolfCafe demo' },

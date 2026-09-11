@@ -8,8 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint .",
-    "build:icons": "node scripts/build-icons.mjs"
+    "lint": "eslint ."
   },
   "dependencies": {
     "react": "^19.1.1",
@@ -23,7 +22,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.4.0",
-    "pixelarticons": "^2.4.1",
     "vite": "^7.1.5"
   }
 }

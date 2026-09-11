@@ -4,10 +4,13 @@
  * Everything here is drawn from the resume. Edit this file to change identity,
  * contact details, or the hero/about narrative - no component hardcodes them.
  *
- * A note on tone: this reads as a portfolio, not a product page. That means
- * plain statements of what was built and studied, in first person, with no
- * taglines, no superlatives, and no calls to action. If a line could appear on
- * a startup's landing page, it does not belong here.
+ * Headings are arrays with one string per rendered line. Wrapping a letter in
+ * braces - `{S}` - sets it in the italic serif accent face (see
+ * components/ui/AccentText.jsx). Keep it to capitals, a couple per line; the
+ * effect only works while it stays occasional.
+ *
+ * Body copy stays plain: what was built and studied, in first person, with no
+ * superlatives.
  */
 
 export const profile = {
@@ -16,7 +19,20 @@ export const profile = {
   role: 'Computer Science student, NC State',
   location: 'Raleigh, NC',
 
-  /** Hero paragraph. Factual, first person, no pitch. */
+  /** Hero headline, set over the photograph. */
+  headline: ['Software {E}ngineer', '{&} Full-{S}tack {D}eveloper.'],
+
+  /** Shown beside the green dot in the navigation. */
+  availability: 'Open to SWE internships and new-grad roles',
+
+  /** Heading of the About section. */
+  aboutHeading: [
+    'Full-{S}tack {D}evelopment.',
+    'Backend {S}ystems. {R}esearch.',
+    'Computer {S}cience at NC {S}tate.',
+  ],
+
+  /** Lead paragraph of the About section. Factual, first person, no pitch. */
   intro:
     'I am a Computer Science student at NC State, graduating May 2027. I work across the whole stack - React on the front, Python and Java services behind it - and most of what I build ends up touching a database, a scraper, or someone else’s API.',
 
@@ -37,7 +53,6 @@ export const profile = {
 
   contact: {
     email: 'bryanp0138@gmail.com',
-    phone: '(919) 352-4669',
     github: 'https://github.com/brypezmex',
     githubUser: 'brypezmex',
     linkedin: 'https://www.linkedin.com/in/bryan-perez23',

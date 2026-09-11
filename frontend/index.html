@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#08070a" />
+    <meta name="theme-color" content="#0f0f0f" />
 
     <title>Bryan Perez - Software Engineer</title>
     <meta
@@ -41,16 +41,30 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
 
+    <!--
+      The hero photograph is the largest element on the first screen. Preloading
+      it here means the download starts with the HTML instead of waiting for the
+      JS bundle to render the <img>. Keep in sync with PORTRAIT in Hero.jsx.
+    -->
+    <link
+      rel="preload"
+      as="image"
+      href="/images/hero-1448.jpg"
+      imagesrcset="/images/hero-800.jpg 800w, /images/hero-1448.jpg 1448w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!--
-      Silkscreen and Pixelify Sans carry the pixel character; Inter keeps body
-      copy readable and JetBrains Mono is scoped to the terminal block.
-      All four are SIL Open Font License 1.1 - see ATTRIBUTIONS.md.
+      Inter Tight sets everything; Instrument Serif (italic) is used for
+      accent letters in headings, index numbers, and the odd editorial
+      flourish. Both are SIL Open Font License 1.1 - see ATTRIBUTIONS.md.
     -->
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
     />
 
     <!--

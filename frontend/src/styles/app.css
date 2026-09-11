@@ -7,13 +7,12 @@
   position: fixed;
   top: var(--space-3);
   left: var(--space-3);
-  z-index: calc(var(--z-nav) + 1);
+  z-index: calc(var(--z-overlay) + 1);
   padding: 0.6rem 1rem;
-  font-family: var(--font-mono);
-  font-size: var(--fs-xs);
-  color: #fff;
-  background: var(--red-deep);
-  border: 1px solid var(--red);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--bg);
+  background: var(--text);
   /* Off-screen until focused, rather than display:none, so it stays in the tab
      order and is the first thing a keyboard user reaches. */
   transform: translateY(-200%);

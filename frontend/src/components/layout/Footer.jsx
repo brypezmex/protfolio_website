@@ -1,40 +1,27 @@
 import { profile } from '../../data/profile.js';
-import { PixelIcon } from '../ui/PixelIcon.jsx';
+import { Icon } from '../ui/Icon.jsx';
+import { Roll } from '../ui/Roll.jsx';
+import { SceneStrip } from '../ui/SceneStrip.jsx';
 import './Footer.css';
 
 const YEAR = new Date().getFullYear();
 
 export function Footer() {
-  const { contact } = profile;
-
   return (
     <footer className="footer">
-      <div className="shell above footer__inner">
-        <div className="footer__brand">
-          <PixelIcon name="terminal" size={16} className="footer__glyph" />
-          <span>{profile.name}</span>
-        </div>
+      <SceneStrip />
 
-        <nav className="footer__links" aria-label="Elsewhere">
-          <a href={contact.github} target="_blank" rel="noopener noreferrer">
-            GitHub
-          </a>
-          <a href={contact.linkedin} target="_blank" rel="noopener noreferrer">
-            LinkedIn
-          </a>
-          <a href={`mailto:${contact.email}`}>Email</a>
-        </nav>
-
+      <div className="shell">
         <div className="footer__meta">
-          <span>&copy; {YEAR}</span>
-          <span aria-hidden="true">/</span>
-          <span>Built with React, Vite, and Flask</span>
+          <p>
+            &copy;{YEAR}. {profile.name}. All rights reserved.
+          </p>
+          <p className="footer__built">Built with React, Vite, and Flask</p>
+          <a className="footer__top roll-trigger" href="#top">
+            <Roll>Back to top</Roll>
+            <Icon name="arrowUp" />
+          </a>
         </div>
-
-        <a className="footer__top" href="#top">
-          Back to top
-          <PixelIcon name="chevronRight" size={16} className="footer__top-arrow" />
-        </a>
       </div>
     </footer>
   );

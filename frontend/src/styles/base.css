@@ -16,7 +16,8 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   /* Anchor targets clear the fixed nav bar. */
-  scroll-padding-top: calc(var(--nav-h) + var(--space-5));
+  scroll-padding-top: var(--nav-h);
+  background-color: var(--bg);
 }
 
 body {
@@ -25,34 +26,12 @@ body {
   color: var(--text);
   font-family: var(--font-sans);
   font-size: var(--fs-body);
+  font-weight: 400;
   line-height: var(--lh-body);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
-}
-
-/*
- * Ambient page texture: a faint technical grid over a red radial wash.
- * Fixed and pointer-events:none so it never participates in layout or hit
- * testing, and painted on its own layer so it does not repaint on scroll.
- */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(
-      ellipse 80% 55% at 50% -10%,
-      var(--red-a08),
-      transparent 70%
-    ),
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 100% 100%, 64px 64px, 64px 64px;
-  opacity: 0.5;
-  mask-image: radial-gradient(ellipse 120% 90% at 50% 0%, #000 20%, transparent 78%);
 }
 
 img,
@@ -66,17 +45,16 @@ img {
   height: auto;
 }
 
-/* Headings run in the pixel display face. Letter-spacing is left at normal
-   rather than tightened: Pixelify Sans is drawn on a grid, and negative
-   tracking collapses the gaps that make it read as pixel art. */
+/* One face, one weight for every heading. Hierarchy comes from size alone,
+   and large type is tracked in slightly so it sets as a solid block. */
 h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-display);
-  font-weight: 600;
+  font-family: var(--font-sans);
+  font-weight: 500;
   line-height: var(--lh-snug);
-  letter-spacing: 0;
+  letter-spacing: var(--ls-heading);
   text-wrap: balance;
 }
 
@@ -105,8 +83,8 @@ ol {
 }
 
 ::selection {
-  background: var(--red);
-  color: #fff;
+  background: var(--text);
+  color: var(--bg);
 }
 
 /* ---- Focus -------------------------------------------------------------- */
@@ -117,8 +95,8 @@ ol {
 }
 
 :focus-visible {
-  outline: 2px solid var(--red-bright);
-  outline-offset: 3px;
+  outline: 1px solid var(--text);
+  outline-offset: 4px;
 }
 
 /* ---- Scrollbar ---------------------------------------------------------- */
@@ -129,8 +107,8 @@ ol {
 }
 
 *::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 *::-webkit-scrollbar-track {
@@ -139,11 +117,10 @@ ol {
 
 *::-webkit-scrollbar-thumb {
   background: var(--line-strong);
-  border: 3px solid var(--bg);
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: var(--red-deep);
+  background: var(--text-faint);
 }
 
 /* ---- Reduced motion ----------------------------------------------------- */

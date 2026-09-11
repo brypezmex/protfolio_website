@@ -2,7 +2,7 @@
 //
 // ES imports are evaluated in source order, and Vite emits CSS in that same
 // order. Importing App first would pull in every component stylesheet ahead of
-// these files, so a shared utility class (.above, .notched, .label) would land
+// these files, so a shared utility class (.label, .roll, .rule) would land
 // after the component rule it collides with and win on source order alone.
 // Keeping the shared layers first gives the cascade the intended shape:
 // tokens -> reset -> utilities -> app shell -> component overrides.
