@@ -1,0 +1,49 @@
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--text-faint);
+}
+
+.status__dot {
+  width: 0.5em;
+  height: 0.5em;
+  flex: none;
+  background: currentColor;
+}
+
+.status--online {
+  color: var(--text);
+}
+
+.status--online .status__dot {
+  background: var(--signal);
+  animation: status-pulse 2.4s var(--ease-in-out) infinite;
+}
+
+/* Offline is a hollow square: the state is spelled out in text, and the page
+   stays monochrome apart from the one "live" colour. */
+.status--offline {
+  color: var(--text-dim);
+}
+
+.status--offline .status__dot {
+  background: transparent;
+  border: 1px solid currentColor;
+}
+
+.status--unconfigured {
+  color: var(--text-faint);
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}

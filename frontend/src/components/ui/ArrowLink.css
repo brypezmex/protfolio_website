@@ -1,0 +1,62 @@
+.arrow-link {
+  --pad-x: 0.55em;
+
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  /* The horizontal padding exists for the hover fill; the negative margin
+     pulls it back out so the arrow lines up with the column edge at rest. */
+  padding: 0.3em var(--pad-x);
+  margin-inline: calc(var(--pad-x) * -1);
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--text);
+  text-align: left;
+  transition: color var(--t-mid) var(--ease-expo);
+}
+
+.arrow-link--sm {
+  font-size: var(--fs-body);
+}
+
+/* White fill that wipes in from the left on hover and out to the right. */
+.arrow-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--text);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--t-mid) var(--ease-expo);
+}
+
+.arrow-link:hover,
+.arrow-link:focus-visible {
+  color: var(--bg);
+}
+
+.arrow-link:hover::before,
+.arrow-link:focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.arrow-link__icon {
+  flex: none;
+  width: 0.9em;
+  height: 0.9em;
+  transition: transform var(--t-mid) var(--ease-expo);
+}
+
+.arrow-link:hover .arrow-link__icon,
+.arrow-link:focus-visible .arrow-link__icon {
+  transform: translateX(0.15em);
+}
+
+.arrow-link:focus-visible {
+  outline-offset: 2px;
+}

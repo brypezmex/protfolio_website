@@ -1,0 +1,112 @@
+/*
+ * A small set of genuinely reusable classes. Deliberately not a utility
+ * framework - anything that appears in only one place belongs in that
+ * component's own stylesheet.
+ */
+
+/* Horizontal page shell. Every section body uses this so the left edge of all
+   content lines up down the entire page. */
+.shell {
+  width: 100%;
+  max-width: var(--shell-max);
+  margin-inline: auto;
+  padding-inline: var(--shell-pad);
+}
+
+/* Keeps content above anything absolutely positioned behind it. */
+.above {
+  position: relative;
+  z-index: 1;
+}
+
+/* Small grey label used for eyebrows, column headings, and metadata. */
+.label {
+  font-size: var(--fs-nav);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--text-faint);
+}
+
+/* A single letter set in the italic serif inside a sans heading. Written as
+   {X} in copy and expanded by <AccentText>. */
+.accent {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  /* The serif sits optically small and low next to a grotesk of the same
+     nominal size; this nudges it back onto the cap height. */
+  font-size: 1.08em;
+  line-height: 0;
+}
+
+/* "[ 01 ]" index marker: grey brackets, number in the accent face. */
+.index {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35em;
+  font-size: var(--fs-nav);
+  font-weight: 500;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.index__num {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1.25em;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.muted {
+  color: var(--text-dim);
+}
+
+/*
+ * Hover "roll": the label slides up out of its line box while a copy slides in
+ * from below. The copy is a text-shadow rather than a second DOM node, so a
+ * screen reader still hears the label once and there is nothing to keep in
+ * sync. Parent elements trigger it with `.roll-trigger:hover`.
+ */
+.roll {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  line-height: 1.25;
+  /* Room for descenders; the shadow copy sits exactly one line below. */
+  padding-bottom: 0.05em;
+}
+
+.roll__text {
+  display: block;
+  text-shadow: 0 1.3em currentColor;
+  transition: transform var(--t-mid) var(--ease-expo);
+}
+
+.roll-trigger:hover .roll__text,
+.roll-trigger:focus-visible .roll__text {
+  transform: translateY(-1.3em);
+}
+
+/* Divider line. Paired with <Rule>, which draws it in from the left. */
+.rule {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+/* Visually hidden but available to screen readers. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

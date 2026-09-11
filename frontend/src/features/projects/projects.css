@@ -1,0 +1,618 @@
+/* ==========================================================================
+   Project list
+   ========================================================================== */
+
+.plist {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   Row
+   ========================================================================== */
+
+.prow {
+  --row-pad: clamp(0.75rem, 1.6vw, 1.75rem);
+
+  position: relative;
+  isolation: isolate;
+  /* The padding is for the hover fill; the negative margin keeps the row's
+     content aligned with the section's edges at rest. */
+  margin-inline: calc(var(--row-pad) * -1);
+  padding: clamp(1.75rem, 3vw, 2.75rem) var(--row-pad);
+}
+
+/* Hover fill, rising from the bottom edge. */
+.prow__fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--surface);
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  transition: transform var(--t-mid) var(--ease-expo);
+}
+
+/* Corner brackets that frame the row on hover. */
+.prow__corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 0 solid var(--text-faint);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--t-mid) var(--ease-out),
+    transform var(--t-mid) var(--ease-expo);
+}
+
+.prow__corner--tl {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+  transform: translate(6px, 6px);
+}
+
+.prow__corner--tr {
+  top: 0;
+  right: 0;
+  border-width: 1px 1px 0 0;
+  transform: translate(-6px, 6px);
+}
+
+.prow__corner--bl {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 1px 1px;
+  transform: translate(6px, -6px);
+}
+
+.prow__corner--br {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1px 1px 0;
+  transform: translate(-6px, -6px);
+}
+
+@media (hover: hover) {
+  .prow:hover .prow__fill {
+    transform: none;
+  }
+
+  .prow:hover .prow__corner {
+    opacity: 1;
+    transform: none;
+  }
+
+  .prow:hover .prow__icon {
+    transform: rotate(90deg);
+  }
+
+  .prow:hover .schematic__box {
+    color: var(--text);
+    border-color: var(--text-faint);
+  }
+}
+
+/* ---- Head --------------------------------------------------------------- */
+
+.prow__head,
+.prow__info {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  column-gap: var(--space-6);
+}
+
+.prow__head {
+  align-items: baseline;
+}
+
+.prow__index {
+  grid-column: 1;
+}
+
+.prow__title {
+  grid-column: 2 / -1;
+  font-size: var(--fs-h3);
+  line-height: 1;
+  letter-spacing: var(--ls-heading);
+}
+
+.prow__open {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  width: 100%;
+  text-align: left;
+  letter-spacing: inherit;
+}
+
+/* Stretches the button's hit area over the whole row. The button and the
+   heading stay unpositioned so this resolves against .prow. */
+.prow__open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.prow__icon {
+  flex: none;
+  width: 0.62em;
+  height: 0.62em;
+  transition: transform var(--t-mid) var(--ease-expo);
+}
+
+/* The whole row is the target, so the whole row shows focus. Where :has() is
+   unavailable the button keeps its own ring instead. */
+@supports selector(:has(*)) {
+  .prow__open:focus-visible {
+    outline: none;
+  }
+
+  .prow:has(.prow__open:focus-visible) {
+    outline: 1px solid var(--text);
+    outline-offset: -1px;
+  }
+
+  .prow:has(.prow__open:focus-visible) .prow__fill {
+    transform: none;
+  }
+}
+
+/* ---- Info --------------------------------------------------------------- */
+
+.prow__info {
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+  row-gap: var(--space-8);
+}
+
+.prow__details {
+  grid-column: 2 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.prow__meta {
+  font-size: var(--fs-nav);
+  font-weight: 500;
+  color: var(--text-faint);
+}
+
+.prow__tagline {
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.prow__highlights {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: var(--text-dim);
+}
+
+.prow__highlights li {
+  position: relative;
+  padding-left: 1.4em;
+}
+
+.prow__highlights li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.8em;
+  width: 0.65em;
+  height: 1px;
+  background: var(--text-faint);
+}
+
+.prow__tech {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--text-faint);
+}
+
+.prow__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: auto;
+  padding-top: var(--space-3);
+}
+
+/* Lifted above the row's stretched hit area so they stay clickable on their
+   own. */
+.prow__footer .plinks,
+.prow__signals {
+  position: relative;
+  z-index: 2;
+}
+
+.prow__signals {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.prow__stars {
+  font-size: var(--fs-sm);
+  color: var(--text-faint);
+}
+
+/* ---- Visual ------------------------------------------------------------- */
+
+.prow__visual {
+  grid-column: 4 / span 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: clamp(280px, 26vw, 420px);
+  padding: var(--space-6) var(--space-4);
+  background-color: var(--bg-elev);
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center;
+  border: 1px solid var(--line);
+}
+
+/* ---- Screenshot (real deploys only) -------------------------------------- */
+
+.prow__shot {
+  position: relative;
+  /* Lifted above the row's stretched dialog-opening hit area, same as the
+     footer links, so the screenshot stays independently clickable. */
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+}
+
+.prow__shot-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  filter: grayscale(0.15);
+  transition:
+    transform var(--t-slow) var(--ease-expo),
+    filter var(--t-mid) var(--ease-out);
+}
+
+.prow__shot-hint {
+  position: absolute;
+  inset: auto var(--space-4) var(--space-4) auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.45em 0.8em;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity var(--t-mid) var(--ease-out),
+    transform var(--t-mid) var(--ease-expo);
+}
+
+@media (hover: hover) {
+  .prow__shot:hover .prow__shot-img {
+    transform: scale(1.04);
+    filter: grayscale(0);
+  }
+
+  .prow__shot:hover .prow__shot-hint {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Schematic
+   ========================================================================== */
+
+.schematic {
+  margin: 0;
+}
+
+.schematic__flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.schematic__node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.schematic__box {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6em;
+  padding: 0.55em 0.95em;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--text-dim);
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  transition:
+    color var(--t-mid) var(--ease-out),
+    border-color var(--t-mid) var(--ease-out);
+  transition-delay: calc(var(--i) * 60ms * var(--motion-scale));
+}
+
+.schematic__step {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1.15em;
+  font-weight: 400;
+  color: var(--text-faint);
+}
+
+/* Connector: a hairline ending in a small square. */
+.schematic__arrow {
+  position: relative;
+  width: 1px;
+  height: 24px;
+  background: var(--line-strong);
+}
+
+.schematic__arrow::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 5px;
+  height: 5px;
+  transform: translateX(-50%);
+  background: var(--text-faint);
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+
+.plinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-7);
+}
+
+.plinks--detail {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.plink-pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  padding-block: 0.3em;
+  font-size: var(--fs-body);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--text-faint);
+  cursor: not-allowed;
+}
+
+.plink-pending__icon {
+  width: 0.9em;
+  height: 0.9em;
+}
+
+.plink-pending__note {
+  padding: 0.1em 0.5em;
+  font-size: 0.75rem;
+  border: 1px solid var(--line-strong);
+}
+
+/* ==========================================================================
+   Detail dialog
+   ========================================================================== */
+
+.pdetail {
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.pdetail__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-right: var(--space-10);
+  padding-bottom: var(--space-7);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.pdetail__title {
+  font-size: var(--fs-h2);
+  line-height: 1;
+  letter-spacing: var(--ls-display);
+}
+
+.pdetail__tagline {
+  max-width: 52ch;
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+
+.pdetail__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-5);
+  margin-top: var(--space-3);
+}
+
+.pdetail__facts dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  font-weight: 500;
+}
+
+.pdetail__muted {
+  color: var(--text-faint);
+}
+
+.pdetail__demo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  color: var(--text);
+}
+
+.pdetail__demo .icon {
+  flex: none;
+}
+
+.pdetail__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  padding-top: var(--space-7);
+}
+
+.pdetail__main,
+.pdetail__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.pdetail__subtitle {
+  margin-bottom: var(--space-4);
+}
+
+.pdetail__summary {
+  max-width: 66ch;
+  color: var(--text-dim);
+}
+
+.pdetail__features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.pdetail__features li {
+  display: grid;
+  /* Fixed marker column: italic numerals differ in width, and an auto column
+     would stagger the titles. */
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  gap: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.pdetail__features h4 {
+  margin-bottom: var(--space-2);
+  font-size: 1.125rem;
+}
+
+.pdetail__features p {
+  max-width: 64ch;
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+}
+
+.pdetail__schematic {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+}
+
+.pdetail__schematic .schematic__box {
+  color: var(--text);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .prow__head {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .prow__title {
+    grid-column: 2;
+  }
+
+  .prow__info {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .prow__details {
+    grid-column: 1;
+  }
+
+  .prow__visual {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 820px) {
+  .pdetail__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* On a phone the stack and links matter more than the feature prose, so the
+     aside moves above the long-form content instead of below it. */
+  .pdetail__aside {
+    order: -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .prow__info {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .prow__details,
+  .prow__visual {
+    grid-column: auto;
+  }
+
+  .prow__visual {
+    min-height: 0;
+  }
+
+  /* The min-height above is what gives .prow__shot's height:100% something
+     to fill; without it, fall back to an aspect ratio instead. */
+  .prow__shot {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 520px) {
+  .prow__footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pdetail__header {
+    padding-right: var(--space-8);
+  }
+}

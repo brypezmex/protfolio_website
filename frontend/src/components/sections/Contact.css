@@ -1,0 +1,39 @@
+.contact {
+  padding-bottom: var(--section-pad);
+}
+
+.contact__heading {
+  margin-bottom: clamp(3rem, 7vw, 7rem);
+  font-size: var(--fs-display);
+  line-height: 0.92;
+  letter-spacing: var(--ls-display);
+  text-wrap: initial;
+}
+
+/* "Let's Work" on the left, "Together." pushed to the right edge. */
+.contact__heading .mask-line:nth-child(2) {
+  text-align: right;
+}
+
+.contact__grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+  max-width: 34rem;
+}
+
+.contact__pitch {
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--text-faint);
+}
+
+.contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  /* Wider than the ArrowLinks' own negative inline margin, so each one's
+     hover fill never touches its neighbour's. */
+  gap: var(--space-2) var(--space-7);
+}

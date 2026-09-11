@@ -1,0 +1,56 @@
+.about__narrative {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 42rem;
+  color: var(--text-dim);
+}
+
+/* ---- Facts strip -------------------------------------------------------- */
+
+.about__facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
+.about__fact {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+}
+
+/* Each fact's rule draws in on its own beat once the strip is on screen. */
+.about__fact::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--line-strong);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--t-slow) var(--ease-expo);
+  transition-delay: calc(var(--i) * 90ms * var(--motion-scale));
+}
+
+.about__facts.is-visible .about__fact::before {
+  transform: none;
+}
+
+.about__fact dd {
+  font-size: var(--fs-h4);
+  font-weight: 500;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-heading);
+}
+
+@media (max-width: 820px) {
+  .about__facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--space-7);
+  }
+}

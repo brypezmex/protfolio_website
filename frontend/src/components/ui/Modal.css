@@ -1,0 +1,77 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(0.75rem, 4vw, 3rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.84);
+  backdrop-filter: blur(8px);
+  animation: modal-fade var(--dur-mid) var(--ease-out);
+}
+
+.modal__panel {
+  position: relative;
+  z-index: 1;
+  width: min(1120px, 100%);
+  margin-block: auto;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  animation: modal-rise var(--dur-slow) var(--ease-expo);
+}
+
+.modal__panel:focus {
+  outline: none;
+}
+
+/* The panel is focused programmatically on open; a ring there would be noise,
+   but keyboard users still need to see where they are, so the border lights
+   instead. */
+.modal__panel:focus-visible {
+  border-color: var(--text);
+}
+
+.modal__close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  transition:
+    color var(--t-fast) var(--ease-out),
+    background-color var(--t-fast) var(--ease-out),
+    border-color var(--t-fast) var(--ease-out);
+}
+
+.modal__close:hover {
+  color: var(--bg);
+  background: var(--text);
+  border-color: var(--text);
+}
+
+@keyframes modal-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+}

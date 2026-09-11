@@ -1,0 +1,58 @@
+# Home server deployment.
+#
+# Run from the repository root:
+#     docker compose -f deploy/docker-compose.yml up -d --build
+#
+# The stack is two containers: nginx serving the built frontend, and Gunicorn
+# serving the API. nginx proxies /api to the API container over the internal
+# network, so they share one origin and no CORS configuration is required.
+#
+# Only the web container publishes a port. Put a TLS terminator (the host's
+# nginx, Caddy, or Traefik) in front of it, or run certbot on the host and use
+# deploy/nginx.conf instead of this stack's web container.
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    # No `ports:` on purpose. The API is only reachable from the web container,
+    # never directly from the LAN.
+    expose:
+      - "5001"
+    env_file:
+      - ../backend/.env
+    environment:
+      # Inside the container the API must bind all interfaces so nginx in the
+      # sibling container can reach it. This overrides HOST from the env file.
+      HOST: 0.0.0.0
+      PORT: "5001"
+    networks:
+      - portfolio
+
+  web:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      args:
+        # Vite bakes these in at build time, so they belong here rather than in
+        # `environment:`. Empty API base URL means same-origin /api requests.
+        VITE_API_BASE_URL: ""
+        VITE_ENABLE_BACKEND: "true"
+        VITE_RESUME_URL: "/resume/resume.pdf"
+        VITE_PROJECT_NOIRMORE_GITHUB: ""
+        VITE_PROJECT_NOIRMORE_DEMO: ""
+        VITE_PROJECT_WOLFCAFE_GITHUB: ""
+        VITE_PROJECT_WOLFCAFE_DEMO: ""
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+    networks:
+      - portfolio
+
+networks:
+  portfolio:
+    driver: bridge

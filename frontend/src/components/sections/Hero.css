@@ -1,0 +1,144 @@
+.hero {
+  --hero-progress: 0;
+
+  position: relative;
+  /* svh accounts for mobile browser chrome; vh is the fallback for engines
+     that do not support it. */
+  height: 100vh;
+  height: 100svh;
+  min-height: 540px;
+  overflow: hidden;
+  background: var(--bg);
+  isolation: isolate;
+}
+
+/* ---- Photograph --------------------------------------------------------- */
+
+/* The wrapper runs the one-off entrance (settling in from a slight zoom);
+   the image inside runs the scroll-linked zoom. Splitting them keeps the two
+   transforms from overwriting each other. */
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  animation: hero-settle calc(2.2s * var(--motion-scale)) var(--ease-expo) both;
+}
+
+.hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Keeps the face in frame: the vertical value matters on wide screens,
+     where the 4:3 photo is cropped top and bottom; the horizontal one on
+     phones, where it is cropped at the sides. */
+  object-position: 40% 36%;
+  transform-origin: 50% 0%;
+  transform: translate3d(0, calc(var(--hero-progress) * 16% * var(--motion-scale)), 0)
+    scale(calc(1 + var(--hero-progress) * 0.18 * var(--motion-scale)));
+  /* The one element on the page that transforms on every scroll frame, so it
+     earns a permanent layer. */
+  will-change: transform;
+}
+
+/*
+ * Legibility layers, top to bottom: a fade under the nav (the top of this
+ * photo is bright wall and poster text, which the nav's small type would
+ * otherwise sit on), a vignette that pulls the eye to the subject, a long
+ * fade at the bottom that sets up the headline and dissolves the photo into
+ * the page, and an overall dim that takes a bright office shot down to the
+ * page's low-key register.
+ */
+.hero__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgb(0 0 0 / 0.82) 0%, rgb(0 0 0 / 0.45) 16%, rgb(0 0 0 / 0) 34%),
+    linear-gradient(0deg, var(--bg) 0%, rgb(15 15 15 / 0.85) 22%, rgb(15 15 15 / 0) 60%),
+    radial-gradient(ellipse 85% 80% at 42% 40%, rgb(0 0 0 / 0) 30%, rgb(0 0 0 / 0.75) 100%),
+    rgb(0 0 0 / 0.3);
+}
+
+/* ---- Content ------------------------------------------------------------ */
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: clamp(1.75rem, 3.5vw, 3rem);
+  height: 100%;
+  padding-bottom: clamp(1.25rem, 2.4vw, 2.25rem);
+  opacity: calc(1 - var(--hero-progress) * 1.8);
+  transform: translate3d(0, calc(var(--hero-progress) * -60px * var(--motion-scale)), 0);
+}
+
+.hero__title {
+  font-size: var(--fs-hero);
+  line-height: 0.95;
+  letter-spacing: var(--ls-display);
+  text-wrap: initial;
+}
+
+.hero__meta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgb(255 255 255 / 0.22);
+  font-size: var(--fs-nav);
+  font-weight: 500;
+  color: rgb(255 255 255 / 0.72);
+  animation: hero-fade calc(1.2s * var(--motion-scale)) var(--ease-out)
+    calc(0.9s * var(--motion-scale)) both;
+}
+
+.hero__meta-location {
+  text-align: center;
+}
+
+.hero__scroll {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--text);
+}
+
+.hero__scroll-icon {
+  animation: hero-nudge calc(2.4s * var(--motion-scale)) var(--ease-in-out) infinite;
+}
+
+@keyframes hero-settle {
+  from {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes hero-nudge {
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__meta {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .hero__meta-location {
+    display: none;
+  }
+}
