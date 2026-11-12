@@ -3,9 +3,9 @@
 }
 
 /*
- * Each line is its own clipping box. The padding gives descenders and the
- * italic accent's overhang room inside the clip, and the matching negative
- * margin cancels it out of the layout so line spacing is unaffected.
+ * Each line is its own clipping box. The padding gives descenders room inside
+ * the clip, and the matching negative margin cancels it out of the layout so
+ * line spacing is unaffected.
  */
 .mask-line {
   display: block;
@@ -25,4 +25,10 @@
 
 .mask-lines.is-visible .mask-line__inner {
   transform: none;
+}
+
+/* The aside half of a two-part heading. --text-dim keeps large-text contrast
+   well above 3:1 on --bg. */
+.mask-line--muted {
+  color: var(--text-dim);
 }

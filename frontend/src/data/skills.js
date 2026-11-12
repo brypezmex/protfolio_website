@@ -12,8 +12,8 @@ export const skillGroups = [
     id: 'languages',
     label: 'Languages',
     skills: [
+      { name: 'Python', usedIn: ['ai-code-reviewer', 'glucocapture', 'noirmore'] },
       { name: 'Java', usedIn: ['wolfcafe'] },
-      { name: 'Python', usedIn: ['noirmore'] },
       { name: 'JavaScript', usedIn: ['noirmore', 'wolfcafe'] },
       { name: 'C', usedIn: [] },
       { name: 'R', usedIn: [] },
@@ -23,15 +23,36 @@ export const skillGroups = [
     id: 'frameworks',
     label: 'Frameworks & Libraries',
     skills: [
-      { name: 'React', usedIn: ['noirmore', 'wolfcafe'] },
-      { name: 'Flask', usedIn: ['noirmore'] },
+      { name: 'FastAPI', usedIn: ['ai-code-reviewer', 'glucocapture'] },
       { name: 'Spring Boot', usedIn: ['wolfcafe'] },
+      { name: 'Flask', usedIn: ['noirmore'] },
+      { name: 'React', usedIn: ['noirmore', 'wolfcafe'] },
     ],
   },
   {
     id: 'databases',
     label: 'Databases',
-    skills: [{ name: 'MySQL', usedIn: [] }],
+    skills: [{ name: 'MySQL', usedIn: ['wolfcafe'] }],
+  },
+  {
+    id: 'ai-data',
+    label: 'AI & Data',
+    skills: [
+      { name: 'AWS Bedrock', usedIn: ['ai-code-reviewer'] },
+      { name: 'OpenSearch', usedIn: ['ai-code-reviewer'] },
+      { name: 'Tree-sitter', usedIn: ['ai-code-reviewer'] },
+      { name: 'Databricks', usedIn: ['glucocapture'] },
+      { name: 'MLflow', usedIn: ['glucocapture'] },
+    ],
+  },
+  {
+    id: 'infrastructure',
+    label: 'Infrastructure',
+    skills: [
+      { name: 'Docker', usedIn: ['ai-code-reviewer', 'homelab'] },
+      { name: 'Proxmox', usedIn: ['homelab'] },
+      { name: 'Cloudflare Tunnel', usedIn: ['homelab'] },
+    ],
   },
   {
     id: 'tools',

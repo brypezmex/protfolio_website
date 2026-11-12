@@ -45,8 +45,8 @@ export function Skills() {
     <Section id="skills">
       <SectionHeading
         id="skills"
-        title={['{L}anguages, {F}rameworks', '{&} {T}ools.']}
-        lede="Grouped by role in the stack. Where the resume places a technology in a project, that project is linked beside it."
+        title={['What I work with.']}
+        lede="Where I’ve used something in one of my projects, that project is linked next to it."
       />
 
       <div className="skills__grid">
@@ -59,9 +59,6 @@ export function Skills() {
             aria-labelledby={`skills-${group.id}`}
           >
             <h3 className="skills__label" id={`skills-${group.id}`}>
-              <span className="index" aria-hidden="true">
-                [ <span className="index__num">{String(groupIndex + 1).padStart(2, '0')}</span> ]
-              </span>
               {group.label}
             </h3>
 

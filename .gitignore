@@ -72,3 +72,8 @@ Thumbs.db
 # ---- Logs ----------------------------------------------------------------
 *.log
 logs/
+
+# ---- Resume --------------------------------------------------------------
+# Contains a phone number; the repo is public. Copy it to the server when
+# deploying instead (see frontend/public/resume/README.md).
+frontend/public/resume/resume.pdf

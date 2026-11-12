@@ -409,7 +409,7 @@ export function SceneStrip() {
   return (
     <div className="scene-strip" ref={containerRef} aria-hidden="true">
       <canvas ref={canvasRef} />
-      <p className="scene-strip__caption">// hand-rasterized in WebGL, hover to look around</p>
+      <p className="scene-strip__caption">A scene from my computer graphics class, drawn in WebGL. Hover to look around.</p>
     </div>
   );
 }

@@ -9,16 +9,25 @@ import { Reveal } from '../../components/ui/Reveal.jsx';
 const CORNERS = ['tl', 'tr', 'bl', 'br'];
 
 /**
- * The row's visual: a real screenshot linking out to the live demo when the
- * project has one, falling back to the generated architecture schematic for
- * projects that do not have a presentable deploy yet.
+ * The row's visual: the project's preview image, linking out to the live demo
+ * when there is one. A project with an image but no public demo (private
+ * work) shows the image on its own; a project with no image falls back to the
+ * generated architecture schematic.
  */
 function ProjectVisual({ project }) {
   const { image, imageAlt, nodes } = project.preview;
   const demoUrl = image ? resolveProjectLinks(project).demo : null;
 
-  if (!image || !demoUrl) {
+  if (!image) {
     return <ProjectSchematic nodes={nodes} projectName={project.name} />;
+  }
+
+  if (!demoUrl) {
+    return (
+      <div className="prow__shot prow__shot--static">
+        <img className="prow__shot-img" src={image} alt={imageAlt ?? ''} loading="lazy" />
+      </div>
+    );
   }
 
   return (
@@ -49,7 +58,7 @@ function ProjectVisual({ project }) {
  *
  * @param {object} props
  * @param {object} props.project
- * @param {number} props.index position in the list, for the [ 01 ] marker
+ * @param {number} props.index position in the list, for the 01 marker
  */
 export function ProjectRow({ project, index }) {
   const { openProject } = useProjectDialog();
@@ -65,7 +74,7 @@ export function ProjectRow({ project, index }) {
 
       <div className="prow__head">
         <span className="index prow__index" aria-hidden="true">
-          [ <span className="index__num">{number}</span> ]
+          {number}
         </span>
         <h3 className="prow__title" id={`project-${project.id}`}>
           <button className="prow__open" type="button" onClick={() => openProject(project.id)}>

@@ -36,8 +36,8 @@ export function Journey() {
     <Section id="journey">
       <SectionHeading
         id="journey"
-        title={['{C}oursework, {R}esearch,', '{P}rojects {&} {C}lubs.']}
-        lede="In the order they happened, from starting at NC State in 2023 to graduating in 2027."
+        title={['What I’ve been doing', 'since 2023.']}
+        lede="Classes, research, projects, and clubs, in the order they happened, from my first semester at NC State to graduating in 2027."
       />
 
       <TimelineFilters value={category} onChange={setCategory} counts={counts} />

@@ -5,11 +5,13 @@ import { Rule } from './Rule.jsx';
 import './SectionHeading.css';
 
 /**
- * The divider and "[ 02 ] Projects" marker that opens every section.
+ * The divider that opens every section.
  *
- * Its text is the section's accessible name (see Section), so the index and
- * label come from the section registry rather than being passed in - the nav,
- * the landmark, and the marker can never disagree.
+ * The section's short name ("Projects") is rendered visually hidden: it is the
+ * section landmark's accessible name (see Section), so a screen reader's
+ * landmark list reads as a list of places, while sighted readers get the
+ * heading itself with no label stacked on top of it. The name comes from the
+ * section registry, so the nav and the landmark can never disagree.
  *
  * @param {object} props
  * @param {string} props.id section id from data/navigation.js
@@ -20,11 +22,8 @@ export function SectionEyebrow({ id }) {
   return (
     <div className="eyebrow">
       <Rule />
-      <p className="eyebrow__text" id={`${id}-label`}>
-        <span className="index" aria-hidden="true">
-          [ <span className="index__num">{section?.index}</span> ]
-        </span>
-        <span>{section?.label}</span>
+      <p className="sr-only" id={`${id}-label`}>
+        {section?.label}
       </p>
     </div>
   );
@@ -38,12 +37,13 @@ export function SectionEyebrow({ id }) {
  *
  * @param {object} props
  * @param {string} props.id section id; also used for the heading's id
- * @param {string[]} props.title one string per line, `{X}` for accent letters
+ * @param {string[]} props.title one string per line
+ * @param {number} [props.mutedFrom] lines from this index on are set in grey
  * @param {string} [props.lede] supporting paragraph
  * @param {React.ReactNode} [props.children] extra content under the lede
  * @param {React.ReactNode} [props.actions] ArrowLinks, rendered last in a row
  */
-export function SectionHeading({ id, title, lede, actions, children }) {
+export function SectionHeading({ id, title, mutedFrom, lede, actions, children }) {
   const hasAside = Boolean(lede || children || actions);
 
   return (
@@ -52,7 +52,7 @@ export function SectionHeading({ id, title, lede, actions, children }) {
 
       <div className="section-heading__grid">
         <h2 className="section-heading__title" id={`${id}-title`}>
-          <MaskLines lines={title} />
+          <MaskLines lines={title} mutedFrom={mutedFrom} />
         </h2>
 
         {hasAside ? (

@@ -46,12 +46,13 @@ img {
 }
 
 /* One face, one weight for every heading. Hierarchy comes from size alone,
-   and large type is tracked in slightly so it sets as a solid block. */
+   and large type is tracked in slightly so it sets as a solid block. Small
+   label-style headings opt back into --font-sans in their own stylesheets. */
 h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-weight: 500;
   line-height: var(--lh-snug);
   letter-spacing: var(--ls-heading);

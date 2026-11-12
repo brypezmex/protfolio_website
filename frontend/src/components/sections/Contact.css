@@ -10,7 +10,7 @@
   text-wrap: initial;
 }
 
-/* "Let's Work" on the left, "Together." pushed to the right edge. */
+/* "Send me" on the left, "an email." pushed to the right edge. */
 .contact__heading .mask-line:nth-child(2) {
   text-align: right;
 }

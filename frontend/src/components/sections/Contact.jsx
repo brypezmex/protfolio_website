@@ -9,7 +9,7 @@ import './Contact.css';
 /**
  * Closing section. The heading is the largest type on the page after the
  * hero, split across the width - first line left, second line right - with
- * three plain actions underneath: email, GitHub, LinkedIn.
+ * three plain actions underneath: the email address itself, GitHub, LinkedIn.
  */
 export function Contact() {
   const { contact } = profile;
@@ -19,7 +19,7 @@ export function Contact() {
       <SectionEyebrow id="contact" />
 
       <h2 className="contact__heading" id="contact-title">
-        <MaskLines lines={['Let’s {W}ork', '{T}ogether.']} stagger={140} />
+        <MaskLines lines={['Send me', 'an email.']} stagger={140} />
       </h2>
 
       <div className="contact__grid">
@@ -29,7 +29,7 @@ export function Contact() {
 
         <Reveal className="contact__actions" delay={100}>
           <ArrowLink href={`mailto:${contact.email}`} icon="mail">
-            Send an email
+            {contact.email}
           </ArrowLink>
           <ArrowLink href={contact.github} external icon="github">
             GitHub

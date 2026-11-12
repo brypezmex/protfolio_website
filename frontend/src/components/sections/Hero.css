@@ -29,9 +29,10 @@
   height: 100%;
   object-fit: cover;
   /* Keeps the face in frame: the vertical value matters on wide screens,
-     where the 4:3 photo is cropped top and bottom; the horizontal one on
-     phones, where it is cropped at the sides. */
-  object-position: 40% 36%;
+     where the 3:4 portrait is cropped hard top and bottom; the horizontal one
+     on phones, where it is cropped at the sides. The face sits right of
+     centre, about a third of the way down. */
+  object-position: 74% 30%;
   transform-origin: 50% 0%;
   transform: translate3d(0, calc(var(--hero-progress) * 16% * var(--motion-scale)), 0)
     scale(calc(1 + var(--hero-progress) * 0.18 * var(--motion-scale)));
@@ -56,7 +57,7 @@
   background:
     linear-gradient(180deg, rgb(0 0 0 / 0.82) 0%, rgb(0 0 0 / 0.45) 16%, rgb(0 0 0 / 0) 34%),
     linear-gradient(0deg, var(--bg) 0%, rgb(15 15 15 / 0.85) 22%, rgb(15 15 15 / 0) 60%),
-    radial-gradient(ellipse 85% 80% at 42% 40%, rgb(0 0 0 / 0) 30%, rgb(0 0 0 / 0.75) 100%),
+    radial-gradient(ellipse 85% 80% at 66% 36%, rgb(0 0 0 / 0) 30%, rgb(0 0 0 / 0.75) 100%),
     rgb(0 0 0 / 0.3);
 }
 
@@ -78,6 +79,12 @@
   line-height: 0.95;
   letter-spacing: var(--ls-display);
   text-wrap: initial;
+}
+
+/* Each authored line balances on its own, so a line that has to wrap on a
+   phone splits evenly instead of leaving one word behind. */
+.hero__title .mask-line__inner {
+  text-wrap: balance;
 }
 
 .hero__meta {

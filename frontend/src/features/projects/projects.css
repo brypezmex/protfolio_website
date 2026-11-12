@@ -276,6 +276,12 @@
   border: 1px solid var(--line-strong);
 }
 
+/* No demo to link to: the image sits under the row's hit area like the rest
+   of the row, so clicking it opens the project details instead. */
+.prow__shot--static {
+  z-index: auto;
+}
+
 .prow__shot-img {
   display: block;
   width: 100%;
@@ -357,10 +363,7 @@
 }
 
 .schematic__step {
-  font-family: var(--font-accent);
-  font-style: italic;
-  font-size: 1.15em;
-  font-weight: 400;
+  font-variant-numeric: tabular-nums;
   color: var(--text-faint);
 }
 
