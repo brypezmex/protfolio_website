@@ -10,8 +10,8 @@ export function Projects() {
     <Section id="projects">
       <SectionHeading
         id="projects"
-        title={['{S}elected {P}rojects,', '{B}uilt {E}nd to {E}nd.']}
-        lede="Two full-stack systems, from the browser down to storage. Open either one for a breakdown of the architecture and what each part does."
+        title={['Things I’ve built.']}
+        lede="Most of my work is on the backend: APIs, data pipelines, and the AI and retrieval pieces behind them. Open any project to see how it’s put together and what I worked on."
       />
 
       <div className="plist">

@@ -16,8 +16,8 @@ and redistribution. Full licence text: https://openfontlicense.org
 
 | Font | Used for | Copyright | Source |
 | --- | --- | --- | --- |
-| **Inter Tight** | Everything: headings, navigation, labels, and body copy | `Copyright 2022 The Inter Project Authors (https://github.com/rsms/inter-tight)` | https://github.com/rsms/inter-tight |
-| **Instrument Serif** (italic) | Accent letters inside headings, index numbers, timeline years, and the odd editorial flourish | `Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif)` | https://github.com/Instrument/instrument-serif |
+| **Familjen Grotesk** | Display type: headings, the hero, project names, timeline years, and the mobile menu | `Copyright 2021 The Familjen Grotesk Project Authors (https://github.com/Familjen-Sthlm/Familjen-Grotesk)` | https://github.com/Familjen-Sthlm/Familjen-Grotesk |
+| **Inter Tight** | Reading sizes: body copy, navigation, and labels | `Copyright 2022 The Inter Project Authors (https://github.com/rsms/inter-tight)` | https://github.com/rsms/inter-tight |
 
 The OFL does not require visible attribution on a website that merely uses the
 fonts. This table is documentation, not an obligation being discharged.
@@ -30,12 +30,13 @@ worth doing if the site is served from a home server that should not rely on an
 external CDN, or for privacy reasons:
 
 ```bash
-npm install @fontsource/inter-tight @fontsource/instrument-serif
+npm install @fontsource/familjen-grotesk @fontsource/inter-tight
 ```
 
 Import the weights the site uses at the top of `frontend/src/main.jsx` -
-`@fontsource/inter-tight/400.css`, `@fontsource/inter-tight/500.css`,
-`@fontsource/inter-tight/600.css`, and `@fontsource/instrument-serif/400-italic.css` -
+`@fontsource/familjen-grotesk/500.css`, `@fontsource/familjen-grotesk/600.css`,
+`@fontsource/inter-tight/400.css`, `@fontsource/inter-tight/500.css`, and
+`@fontsource/inter-tight/600.css` -
 then remove the `<link>` tags and the two `preconnect` hints from
 `frontend/index.html`, and drop `https://fonts.googleapis.com` and
 `https://fonts.gstatic.com` from the Content-Security-Policy in
@@ -52,7 +53,7 @@ takes cues from the portfolio of Daniel Vaszka (https://www.danielvaszka.com),
 a common structure in current design-agency portfolios.
 
 None of that site's code, images, copy, or fonts are used here, and the
-typography, colour system, accent mechanic, and section content are original
+typography, colour system, heading treatment, and section content are original
 to this project. Its commercial typefaces (PP Neue Montreal and ATK Studio
 Tiposka) are not used anywhere in this codebase; this site's two OFL fonts are
 listed above.
@@ -63,9 +64,13 @@ listed above.
 
 No other third-party assets are used. Specifically:
 
-- **Photography.** The hero portrait and the WolfCafe and NoirMore preview
-  screenshots in `frontend/public/images/` are the site owner's own photo and
-  own deployed applications, re-encoded for the web with metadata stripped.
+- **Photography.** The hero portrait and the WolfCafe, NoirMore, and
+  GlucoCapture preview screenshots in `frontend/public/images/` are the site
+  owner's own photo and own deployed applications, re-encoded for the web with
+  metadata stripped.
+- **AI Code Reviewer icon.** `ai-code-reviewer-preview.jpg` is a robot-head
+  icon supplied by the site owner, recoloured for the dark page. If it came
+  from a stock icon site, record its source and licence here.
 - **The WebGL scene in the footer.** `frontend/public/scene/ff7-scene.bin` is
   geometry from the site owner's own CSC 461 (Computer Graphics) rasterization
   assignment - a triangle-mesh approximation of a Final Fantasy VII background,

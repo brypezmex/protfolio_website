@@ -28,21 +28,23 @@
 
   /* ---- Typography ---------------------------------------------------------
    *
-   * Two families:
+   * Two families, split by job:
    *
-   *   --font-sans    Inter Tight. Everything - headings, navigation, body.
-   *                  A tightened-tracking grotesk built for display sizes,
-   *                  so it stays legible from the hero headline down to the
-   *                  nav labels without switching faces.
-   *   --font-accent  Instrument Serif italic. Used for single letters inside
-   *                  headings ("Full-Stack" with a serif italic S), bracketed
-   *                  index numbers, and the odd editorial flourish. Never for
-   *                  running text.
+   *   --font-display  Familjen Grotesk. Headings and any type set large: the
+   *                   hero, section statements, project names, timeline
+   *                   years, the contact heading. Its ink traps and
+   *                   single-storey "a" give the big type its own voice, so
+   *                   no heading needs a decorative second face mixed in.
+   *   --font-sans     Inter Tight. Body copy, navigation, labels, metadata -
+   *                   everything read at small sizes.
+   *
+   * Emphasis inside a heading comes from tone (white against grey), never
+   * from swapping faces mid-word.
    *
    * Both are SIL Open Font License 1.1 - see ATTRIBUTIONS.md.
    * ------------------------------------------------------------------------ */
+  --font-display: 'Familjen Grotesk', 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-sans: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-accent: 'Instrument Serif', Georgia, 'Times New Roman', serif;
 
   /* Fluid scale. clamp() interpolates with the viewport so the big type keeps
      its proportions from phone to wide desktop without breakpoint jumps. */

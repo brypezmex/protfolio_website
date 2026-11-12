@@ -112,8 +112,8 @@ export function Nav() {
             onClick={closeMenu}
             aria-label={`${profile.name} - back to top`}
           >
-            <span className="nav__heading">Hello, my name is</span>
             <span className="nav__name">{profile.name}</span>
+            <span className="nav__heading">Software engineer</span>
           </a>
 
           <div className="nav__col nav__col--actions">
@@ -151,9 +151,6 @@ export function Nav() {
               {navSections.map((section, index) => (
                 <li key={section.id} style={{ '--i': index }}>
                   <a className="nav-menu__link" href={`#${section.id}`} onClick={closeMenu}>
-                    <span className="index" aria-hidden="true">
-                      [ <span className="index__num">{section.index}</span> ]
-                    </span>
                     {section.label}
                   </a>
                 </li>

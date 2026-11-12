@@ -2,7 +2,7 @@
  * Section registry.
  *
  * Drives the nav links, the mobile menu, the scroll-spy active indicator, and
- * the "[ 02 ] Projects" eyebrow above each section heading. `id` must match
+ * the hidden landmark name of each section. `id` must match
  * the id on the corresponding <Section> element, and the array order is the
  * order the sections appear on the page.
  *

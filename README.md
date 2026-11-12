@@ -65,8 +65,7 @@ server can host, which is what makes home server deployment trivial.
 identity relies on things utility frameworks make awkward: a navigation bar
 blended with `mix-blend-mode: difference` so it reads over both the photograph
 and the black page, headings that rise line by line out of clipping masks,
-italic-serif accent letters inside a grotesk headline, and a scroll-linked
-photo zoom. Writing that as custom properties in `src/styles/tokens.css` plus
+two-tone statement headings, and a scroll-linked photo zoom. Writing that as custom properties in `src/styles/tokens.css` plus
 one stylesheet per component keeps the CSS readable, keeps the shipped bundle
 small (under 7 KB gzipped), and means the entire site can be re-themed by
 editing one file.
@@ -98,14 +97,14 @@ object; no component changes.
 
 The design is monochrome and led by type: a black ground, white type, two
 greys, and exactly one colour - the green availability dot in the nav. Section
-headings are short statements set large, with a few capitals swapped for an
-italic serif (written as `{S}` in the copy), and every section opens with a
-plain "[ 02 ] Projects" marker so the structure stays obvious even when the
-headline is a sentence.
+headings are ordinary sentences set large in Familjen Grotesk, in sentence
+case, opened by a single rule. Where a heading has a statement and an aside,
+the aside is set in grey (`mutedFrom` on `SectionHeading`) rather than in a
+second typeface.
 
-Body copy stays plain and first person: what was built and studied, with no
-superlatives. When editing headings, keep the accent letters to capitals and to
-a couple per line - the effect only works while it stays occasional.
+Body copy stays plain and first person, with contractions - the way it would be
+said out loud. No superlatives, no title-cased slogans, and no stacks of
+one-word fragments ("Backend Systems. Research.").
 
 ---
 
@@ -156,7 +155,7 @@ a couple per line - the effect only works while it stays occasional.
 | Styling | CSS custom properties, per-component stylesheets | Full control over the visual identity, tiny bundle, one-file theming |
 | Animation | `IntersectionObserver` and CSS transitions | No dependency, compositor-only, trivial reduced-motion support |
 | Icons | Hand-authored SVG paths in `Icon.jsx` | Eight hairline icons plus GitHub and LinkedIn marks; no package, no build step |
-| Fonts | Inter Tight, Instrument Serif | One tight grotesk for everything, an italic serif for accent letters |
+| Fonts | Familjen Grotesk, Inter Tight | A characterful grotesk for display type, a tight neutral grotesk for reading sizes |
 | API | Flask 3 | On the resume; small enough for a home server |
 | HTTP | requests | Standard, sufficient for two outbound integrations |
 | WSGI | Gunicorn | Standard production server for Flask on Linux |
@@ -653,13 +652,12 @@ single: the photograph is the only thing on the page that should carry tone.
 **Typography.** Two families - see [section 15](#15-icons-and-fonts). The type
 scale uses `clamp()` so the oversized headings keep their proportions from
 phone to wide desktop without jumping at breakpoints. `--fs-hero` sets the
-hero headline and `--fs-display` the "Let's Work Together." heading.
+hero headline and `--fs-display` the "Send me an email." heading.
 
-**Headings and accent letters.** Heading copy is an array with one string per
-rendered line; the hero and About headings live in `frontend/src/data/profile.js`,
-the others at the top of each section component. Wrap a letter in braces -
-`'Full-{S}tack'` - to set it in the italic serif. `AccentText.jsx` does the
-expansion and `MaskLines.jsx` animates each line up out of its own mask.
+**Headings.** Heading copy is an array with one string per rendered line; the
+hero and About headings live in `frontend/src/data/profile.js`, the others at
+the top of each section component. `MaskLines.jsx` animates each line up out of
+its own mask; pass `mutedFrom={n}` to set line `n` onward in grey.
 
 **Shape.** Square corners everywhere, 1px rules, no shadows. Hover states are
 fills rather than glows: links wipe a white block in behind the label, and
@@ -671,8 +669,8 @@ separate fixed gradient (`.nav-scrim`) dims content scrolling underneath. Do
 not give `.nav` a background colour or put the mobile menu inside it - a
 difference-blended dark panel renders as transparent.
 
-**Changing the hero photograph.** Replace the two files in
-`frontend/public/images/` (`hero-800.jpg` and `hero-1448.jpg`), then update
+**Changing the hero photograph.** Replace
+`frontend/public/images/hero-800.jpg` and `hero-1500.jpg`, then update
 `PORTRAIT` in `frontend/src/components/sections/Hero.jsx` and the matching
 `<link rel="preload">` in `frontend/index.html` if the names or dimensions
 change. Strip EXIF data from phone photos before committing them - it can
@@ -712,11 +710,11 @@ scale with the text beside them.
 
 | Family | Role |
 | --- | --- |
-| **Inter Tight** | Everything: headings, navigation, labels, body copy |
-| **Instrument Serif** (italic) | Accent letters inside headings, index numbers, timeline years |
+| **Familjen Grotesk** | Display: headings, the hero, project names, timeline years, the mobile menu |
+| **Inter Tight** | Reading sizes: body copy, navigation, labels, metadata |
 
-One face at one weight (500) carries the whole hierarchy through size alone;
-the italic serif is the only contrast, and it is used a letter at a time. Large
+Each face runs at one weight (500), and hierarchy comes from size and tone
+(white against grey) rather than from mixing faces inside a heading. Large
 headings are tracked slightly negative (`--ls-display`, `--ls-heading`) so they
 set as solid blocks; body copy stays at normal tracking.
 
@@ -812,14 +810,14 @@ must be passed as build `args`.
 `Icon.jsx`. `Icon` logs a warning in development and renders nothing rather
 than breaking layout.
 
-**Headings render in a fallback font, or accent letters look like plain
-Times.** Inter Tight or Instrument Serif failed to load. Check the Google Fonts
+**Headings render in a fallback font.** Familjen Grotesk or Inter Tight failed
+to load. Check the Google Fonts
 `<link>` in `index.html` and, if a CSP is in force, that
 `fonts.googleapis.com` and `fonts.gstatic.com` are allowed.
 
 **The hero is a black screen.** The photograph did not load. Check that
-`frontend/public/images/hero-800.jpg` and `hero-1448.jpg` exist and that the
-paths in `Hero.jsx` match them.
+`frontend/public/images/hero-800.jpg` and `hero-1500.jpg` exist and that the paths in
+`Hero.jsx` match them.
 
 **The footer name overflows or falls short of the full width.** Its size is the
 content width divided by the name's set width in em. If `profile.name` changes,

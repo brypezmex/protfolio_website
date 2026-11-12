@@ -6,6 +6,7 @@ import { StatusDot } from '../../components/ui/StatusDot.jsx';
 import { TagList } from '../../components/ui/Tag.jsx';
 import { ProjectSchematic } from './ProjectSchematic.jsx';
 import { ProjectLinks } from './ProjectLinks.jsx';
+import { projectLinkItems } from './projectLinkItems.js';
 import { useProjectMeta } from './useProjects.js';
 
 /**
@@ -20,7 +21,7 @@ function DemoFact({ project, status }) {
     return (
       <>
         <StatusDot status={status} />
-        {status === 'unknown' ? <span className="pdetail__muted">Not published</span> : null}
+        {status === 'unknown' ? <span className="pdetail__muted">Not public</span> : null}
       </>
     );
   }
@@ -93,7 +94,7 @@ function ProjectDetailBody({ project }) {
               {project.features.map((feature, index) => (
                 <li key={feature.title}>
                   <span className="index" aria-hidden="true">
-                    [ <span className="index__num">{String(index + 1).padStart(2, '0')}</span> ]
+                    {String(index + 1).padStart(2, '0')}
                   </span>
                   <div>
                     <h4>{feature.title}</h4>
@@ -118,10 +119,12 @@ function ProjectDetailBody({ project }) {
             <TagList items={project.tech} label={`Technologies used in ${project.name}`} />
           </section>
 
-          <section className="pdetail__block">
-            <h3 className="pdetail__subtitle label">Links</h3>
-            <ProjectLinks project={project} variant="detail" />
-          </section>
+          {projectLinkItems(project).length > 0 ? (
+            <section className="pdetail__block">
+              <h3 className="pdetail__subtitle label">Links</h3>
+              <ProjectLinks project={project} variant="detail" />
+            </section>
+          ) : null}
         </aside>
       </div>
     </div>

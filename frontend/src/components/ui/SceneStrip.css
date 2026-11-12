@@ -18,8 +18,8 @@
   position: absolute;
   left: var(--shell-pad);
   bottom: var(--space-3);
-  font-family: var(--font-accent);
   font-size: var(--fs-sm);
+  font-weight: 500;
   color: var(--text-faint);
   pointer-events: none;
 }

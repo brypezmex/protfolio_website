@@ -4,43 +4,40 @@
  * Everything here is drawn from the resume. Edit this file to change identity,
  * contact details, or the hero/about narrative - no component hardcodes them.
  *
- * Headings are arrays with one string per rendered line. Wrapping a letter in
- * braces - `{S}` - sets it in the italic serif accent face (see
- * components/ui/AccentText.jsx). Keep it to capitals, a couple per line; the
- * effect only works while it stays occasional.
+ * Headings are arrays with one string per rendered line, written as ordinary
+ * sentences in sentence case - no title-cased slogans, no stacks of
+ * one-word fragments.
  *
- * Body copy stays plain: what was built and studied, in first person, with no
- * superlatives.
+ * Body copy stays plain: what was built and studied, in first person, with
+ * contractions, the way it would be said out loud. No superlatives.
  */
 
 export const profile = {
   name: 'Bryan Perez',
   firstName: 'Bryan',
-  role: 'Computer Science student, NC State',
+  /** Bottom-left of the hero, under the headline - so it adds a fact the
+      headline doesn't already state. */
+  role: 'B.S. Computer Science, class of 2027',
   location: 'Raleigh, NC',
 
   /** Hero headline, set over the photograph. */
-  headline: ['Software {E}ngineer', '{&} Full-{S}tack {D}eveloper.'],
+  headline: ['Full-stack developer', '& CS student at NC State.'],
 
   /** Shown beside the green dot in the navigation. */
-  availability: 'Open to SWE internships and new-grad roles',
+  availability: 'Open to software and AI engineering roles',
 
-  /** Heading of the About section. */
-  aboutHeading: [
-    'Full-{S}tack {D}evelopment.',
-    'Backend {S}ystems. {R}esearch.',
-    'Computer {S}cience at NC {S}tate.',
-  ],
+  /** Heading of the About section. The second line is set in grey. */
+  aboutHeading: ['I’m a CS student at NC State', 'who mostly works on the backend.'],
 
   /** Lead paragraph of the About section. Factual, first person, no pitch. */
   intro:
-    'I am a Computer Science student at NC State, graduating May 2027. I work across the whole stack - React on the front, Python and Java services behind it - and most of what I build ends up touching a database, a scraper, or someone else’s API.',
+    'I graduate in May 2027. I build full-stack web apps and AI-powered tools, and my part is usually the backend: Python and Java services, data pipelines, and the retrieval behind AI features.',
 
   /** About section. Each string renders as its own paragraph. */
   about: [
-    'I like building things end to end. Starting at the browser and stopping only when it reaches storage is how I actually learn a system, and it is how both of the projects below were built.',
-    'Those two pulled in opposite directions, which is why I keep them together. NoirMore was a research problem wearing a web app: collect evidence from six very different sources, rank it by how much you should trust it, and work out whether it actually supports the claim someone typed in. WolfCafe was a discipline problem: a layered Spring Boot backend where authentication, role boundaries, and order state have to be correct every single time.',
-    'Alongside coursework I spent a summer as an undergraduate researcher on a cybersecurity education study, write software that talks to rocket hardware, and keep the books as treasurer for the Latino Association of Computer Science.',
+    'Right now I’m on a team building an AI pull request reviewer for Bandwidth, where I work on the retrieval infrastructure that gives it context from the whole repository. In October, GlucoCapture took 3rd place in the Applied AI Databricks track at a 24-hour hackathon; I built its FastAPI backend and Databricks pipelines.',
+    'I also run my own server. This site and the NoirMore and WolfCafe demos are live on a Proxmox and Docker homelab at my house, so I get to deal with what happens after the code works: deploying it, containerizing it, and keeping it up.',
+    'Outside of class, I spent a summer as an undergraduate researcher on a cybersecurity education study, I write C and STM32 software for rocket hardware with the High Powered Rocketry Club, and I’m treasurer of the Latino Association of Computer Science.',
   ],
 
   /** Short factual pairs rendered beside the about copy. */
@@ -60,7 +57,7 @@ export const profile = {
 
   /** Contact section copy. */
   contactPitch:
-    'I am looking for software engineering internships and new-grad roles. Email is the best way to reach me.',
+    'I’m looking for software development and AI engineering roles, internships or entry-level. Email is the best way to reach me.',
 };
 
 export default profile;

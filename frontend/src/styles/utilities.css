@@ -28,36 +28,17 @@
   color: var(--text-faint);
 }
 
-/* A single letter set in the italic serif inside a sans heading. Written as
-   {X} in copy and expanded by <AccentText>. */
-.accent {
-  font-family: var(--font-accent);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0;
-  /* The serif sits optically small and low next to a grotesk of the same
-     nominal size; this nudges it back onto the cap height. */
-  font-size: 1.08em;
-  line-height: 0;
-}
-
-/* "[ 01 ]" index marker: grey brackets, number in the accent face. */
+/* "01" list marker: small, grey, tabular so a column of them lines up. */
 .index {
   display: inline-flex;
   align-items: baseline;
-  gap: 0.35em;
+  font-family: var(--font-sans);
   font-size: var(--fs-nav);
   font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
   color: var(--text-faint);
   white-space: nowrap;
-}
-
-.index__num {
-  font-family: var(--font-accent);
-  font-style: italic;
-  font-size: 1.25em;
-  font-weight: 400;
-  color: var(--text);
 }
 
 .muted {

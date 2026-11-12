@@ -20,3 +20,7 @@ VITE_RESUME_URL=https://files.example.com/bryan-perez-resume.pdf
 
 Until a PDF is placed here, those links resolve to a 404. Nothing else on the
 site depends on the file.
+
+The PDF is listed in `.gitignore` because it contains personal contact
+details and this repository is public. Keep it on your machine and copy it to
+the server as part of a deploy; never commit it.

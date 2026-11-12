@@ -68,17 +68,29 @@ export function isPlaceholderLink(url) {
  * Resolve a project's outbound links: env override wins, then the value in
  * projects.js, then null.
  *
- * @param {{ id: string, links: { github?: string, demo?: string } }} project
- * @returns {{ github: string|null, demo: string|null }}
+ * `source` describes the repository even when there is no URL to link to:
+ * 'public' (github is a URL), 'pending' (not published yet), 'private' (exists
+ * but stays private), or 'none' (the project has no repository).
+ *
+ * @param {{ id: string, links: { github?: string|null, demo?: string|null, devpost?: string|null } }} project
+ * @returns {{ github: string|null, demo: string|null, devpost: string|null,
+ *   source: 'public'|'pending'|'private'|'none' }}
  */
 export function resolveProjectLinks(project) {
   const override = projectLinkOverrides[project.id] ?? {};
+  const raw = (key) => read(override[key]) || project.links?.[key];
   const pick = (key) => {
-    const value = read(override[key]) || project.links?.[key];
-    return isPlaceholderLink(value) ? null : value;
+    const value = raw(key);
+    return isPlaceholderLink(value) || value === 'private' ? null : value;
   };
 
-  return { github: pick('github'), demo: pick('demo') };
+  const githubRaw = raw('github');
+  let source = 'public';
+  if (githubRaw === 'private') source = 'private';
+  else if (githubRaw === null || githubRaw === undefined) source = 'none';
+  else if (isPlaceholderLink(githubRaw)) source = 'pending';
+
+  return { github: pick('github'), demo: pick('demo'), devpost: pick('devpost'), source };
 }
 
 export default siteConfig;

@@ -12,6 +12,7 @@ export function About() {
       <SectionHeading
         id="about"
         title={profile.aboutHeading}
+        mutedFrom={1}
         lede={profile.intro}
         actions={
           <>

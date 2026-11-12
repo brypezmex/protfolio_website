@@ -8,15 +8,16 @@ import './Hero.css';
 /**
  * The portrait. Served from /public so index.html can preload it - it is the
  * largest thing on the first screen, and waiting for the JS bundle to discover
- * it would delay the page's first meaningful paint. The 800w file covers
- * phones; the 1448w file is the full-resolution original (EXIF stripped).
+ * it would delay the page's first meaningful paint. Portrait-orientation
+ * photo, EXIF stripped: the 800w file covers phones, the 1500w file is the
+ * full-resolution original for desktop.
  */
 const PORTRAIT = {
-  src: '/images/hero-1448.jpg',
-  srcSet: '/images/hero-800.jpg 800w, /images/hero-1448.jpg 1448w',
-  width: 1448,
-  height: 1086,
-  alt: `${profile.name} working on a laptop in an office`,
+  src: '/images/hero-1500.jpg',
+  srcSet: '/images/hero-800.jpg 800w, /images/hero-1500.jpg 1500w',
+  width: 1500,
+  height: 2000,
+  alt: `${profile.name} holding the flag of Mexico at a conference`,
 };
 
 /**

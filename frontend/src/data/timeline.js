@@ -33,7 +33,7 @@ const entries = [
     periodLabel: 'August 2023 - May 2027',
     status: 'in-progress',
     summary:
-      'Started the Computer Science degree at NC State. Coursework has centered on the fundamentals that show up in everything since: data structures, systems, and software design.',
+      'Started the Computer Science degree at NC State. Most of my coursework so far has been data structures, systems, and software design.',
     points: [
       'Relevant coursework: Data Structures & Algorithms, Operating Systems, Software Engineering, Computer Graphics',
     ],
@@ -52,7 +52,7 @@ const entries = [
     periodLabel: 'September 2023 - Present',
     status: 'in-progress',
     summary:
-      'Engaged in STEM outreach and leadership development for Hispanic communities.',
+      'STEM outreach and leadership development events for Hispanic students and communities.',
     points: [],
     tags: ['Outreach', 'Leadership development'],
     projectId: null,
@@ -86,7 +86,7 @@ const entries = [
     periodLabel: 'May 2025 - August 2025',
     status: 'complete',
     summary:
-      'A summer of qualitative research on what actually makes middle school students engage with cybersecurity, working alongside a team of undergraduate researchers.',
+      'A summer of qualitative research into what gets middle school students interested in cybersecurity, with a team of other undergraduate researchers.',
     points: [
       'Analyzed interview data from 20+ middle school students participating in a cybersecurity camp',
       'Identified key engagement themes through collaborative qualitative analysis',
@@ -107,12 +107,12 @@ const entries = [
     periodLabel: 'January 2026 - Present',
     status: 'in-progress',
     summary:
-      'Writing software that talks to physical hardware, on a multidisciplinary team where the integration layer is where the interesting failures live.',
+      'Writing and testing C and STM32 software that talks to the rocket’s hardware, on a team made up of several engineering disciplines.',
     points: [
-      'Collaborate with a multidisciplinary team to develop and test software that interfaces with rocket hardware systems',
-      'Debug and test software-hardware interfaces to identify integration issues and improve system reliability',
+      'Develop and test C and STM32 software that interfaces with rocket hardware, including sensors and flight data',
+      'Debug software-hardware integration issues in a multidisciplinary team to improve system reliability',
     ],
-    tags: ['Embedded', 'Hardware interfacing', 'Testing'],
+    tags: ['C', 'STM32', 'Embedded', 'Testing'],
     projectId: null,
   },
   {
@@ -121,15 +121,15 @@ const entries = [
     emphasis: 'major',
     title: 'WolfCafe',
     org: null,
-    role: 'Developer',
+    role: 'Backend developer',
     start: '2026-01',
     end: '2026-04',
     periodLabel: 'January - April 2026',
     status: 'complete',
     summary:
-      'Built a role-based ordering platform on a layered Spring Boot backend, with JWT authentication and a server-owned order state machine.',
+      'A role-based ordering app on a layered Spring Boot and MySQL backend, with JWT authentication and a server-owned order state machine.',
     points: [],
-    tags: ['React', 'Spring Boot', 'JWT', 'REST APIs'],
+    tags: ['Spring Boot', 'MySQL', 'JWT', 'React'],
     projectId: 'wolfcafe',
   },
   {
@@ -138,15 +138,15 @@ const entries = [
     emphasis: 'major',
     title: 'NoirMore',
     org: null,
-    role: 'Developer',
+    role: 'Backend developer',
     start: '2026-02',
     end: '2026-02',
     periodLabel: 'February 2026',
     status: 'complete',
     summary:
-      'Built an AI fact-checking platform that gathers evidence from six sources, ranks it by reliability, and returns a verdict with a confidence score.',
+      'An AI fact-checking app that scrapes evidence from 10+ sources, ranks it by reliability, and returns a verdict with a confidence score.',
     points: [],
-    tags: ['React', 'Python', 'Flask', 'Web Scraping'],
+    tags: ['Python', 'Flask', 'Web Scraping', 'React'],
     projectId: 'noirmore',
   },
   {
@@ -170,6 +170,40 @@ const entries = [
     projectId: null,
   },
   {
+    id: 'ai-code-reviewer',
+    type: 'project',
+    emphasis: 'major',
+    title: 'AI Code Reviewer',
+    org: 'Bandwidth',
+    role: 'Backend developer',
+    start: '2026-08',
+    end: null,
+    periodLabel: 'August 2026 - Present',
+    status: 'in-progress',
+    summary:
+      'On a team building an AI GitHub pull request reviewer for Bandwidth. I work on the RAG infrastructure that gives it repo-wide context.',
+    points: [],
+    tags: ['Python', 'FastAPI', 'AWS Bedrock', 'OpenSearch'],
+    projectId: 'ai-code-reviewer',
+  },
+  {
+    id: 'glucocapture',
+    type: 'project',
+    emphasis: 'major',
+    title: 'GlucoCapture',
+    org: 'Hackathon - 3rd place, Applied AI Databricks track',
+    role: 'Backend developer',
+    start: '2026-10',
+    end: '2026-10',
+    periodLabel: 'October 2026',
+    status: 'complete',
+    summary:
+      'A streaming AI agent that explains post-meal glucose changes, built in 24 hours. I built the FastAPI backend and the Databricks pipelines.',
+    points: [],
+    tags: ['Python', 'FastAPI', 'Databricks', 'MLflow'],
+    projectId: 'glucocapture',
+  },
+  {
     id: 'graduation',
     type: 'education',
     emphasis: 'major',
@@ -181,7 +215,7 @@ const entries = [
     periodLabel: 'May 2027',
     status: 'upcoming',
     summary:
-      'B.S. in Computer Science. Open to software engineering internships before then and new-grad roles after.',
+      'B.S. in Computer Science. Open to software development and AI engineering roles, internships before then and entry-level after.',
     points: [],
     tags: [],
     projectId: null,
